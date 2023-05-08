@@ -1,0 +1,9 @@
+.profileBox {
+    background-image: url("https://heartofthecity.co.nz/sites/default/files/styles/ratio_3_x_1_medium/public/2023-01/Sky-Tower-Hero.jpg?itok=mkeMBlUE");
+    background-size: cover;
+    background-position-x: -55px;
+}
+
+.shadowText {
+    text-shadow: 2px 2px 5px #777;
+}
