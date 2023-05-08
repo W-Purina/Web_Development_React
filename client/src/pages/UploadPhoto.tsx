@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button, ImageUploader, Toast } from 'antd-mobile';
 import { ImageUploadItem } from 'antd-mobile/es/components/image-uploader';
-import { ImageAnnotatorClient } from '@google-cloud/vision/build/src/browser/vision-client';
+
+
 const UploadPhoto = () => {
   const [fileList, setFileList] = useState<ImageUploadItem[]>([]);
 
@@ -29,25 +30,34 @@ const UploadPhoto = () => {
       return;
     }
 
-    //处理返回的base64编码
-    // const base64ToBuffer = (base64:string):Uint8Array=> {
-    //   const binaryString = atob(base64);
-    //   const len = binaryString.length;
-    //   const bytes = new Uint8Array(len);
-    //   for (let i = 0; i < len; i++) {
-    //     bytes[i] = binaryString.charCodeAt(i);
-    //   }
-    //   return Buffer.from(bytes.buffer);
-    // };
-
-    const client = new ImageAnnotatorClient();
+    const apiKey = 'AIzaSyCl7pXqIlOKIZ8W4T6aQsqI0STtHSyZ140'
     const base64Image = fileList[0].url.split('base64,')[1];
     const image = { content: base64Image };
 
-    try {
-      const [response] = await client.textDetection(image);
-      const fullTextAnnotation = response.fullTextAnnotation;
+    const requestQptions = {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        requests:[
+          {
+            image,
+            features:[
+              {
+                type:'TEXT_DETECTION',
+              }
+            ]
+          }
+        ]
+      })
+    }
 
+    try {
+      const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
+      requestQptions
+      );
+
+      const result = await response.json();
+      const fullTextAnnotation = result.responses[0].fullTextAnnotation;
       if (fullTextAnnotation) {
         // 在此处处理识别结果，如显示在页面上或发送到服务器
         console.log(fullTextAnnotation.text);
