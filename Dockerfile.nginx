@@ -1,0 +1,4 @@
+#用于Nginx部署服务
+FROM nginx:stable-alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf

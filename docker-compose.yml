@@ -1,0 +1,15 @@
+#创建在server和client同级的文件下
+version: "3.8"
+services:
+  frontend:
+    build:
+      # 将构建上下文设置为当前目录，它包含 server 和 client 文件夹
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: frontend
+    image: frontend-image
+    ports:
+      - "80:80"
+
+
+
