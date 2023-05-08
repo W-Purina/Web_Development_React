@@ -1,3 +1,0 @@
-# The Frontend
-
-The front end was invented by React TS + Tailwind CSS + ...
