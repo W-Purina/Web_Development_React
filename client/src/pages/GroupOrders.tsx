@@ -53,8 +53,8 @@ const Group = () => {
       <NavBar onBack={() => navigate("/dashboard")} right={right}>
         Group Orders
       </NavBar>
-      <div className={`${styles.dashboard} relative h-full`}>
-        <div className={`${styles.dashboardBG} absolute inset-0`}>
+      <div className={`${styles.dashboard}`}>
+        <div className={`${styles.dashboardBG} inset-0  min-h-screen`}>
           <GroupProfile></GroupProfile>
           <OrderCardList></OrderCardList>
           <FloatingBubble

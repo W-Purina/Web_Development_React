@@ -1,6 +1,7 @@
 .dashboard {
     background-image: url("https://heartofthecity.co.nz/sites/default/files/styles/ratio_3_x_1_medium/public/2023-01/Sky-Tower-Hero.jpg?itok=mkeMBlUE");
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .dashboardBG {

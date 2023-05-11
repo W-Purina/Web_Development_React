@@ -29,8 +29,8 @@ const OrderDetails = () => {
       <NavBar onBack={() => navigate(-1)} right={right}>
         Order Details
       </NavBar>
-      <div className={`${styles.dashboard} relative h-full`}>
-        <div className={`${styles.dashboardBG} absolute inset-0`}>
+      <div className={`${styles.dashboard}`}>
+        <div className={`${styles.dashboardBG} inset-0  min-h-screen`}>
           <OrderProfile></OrderProfile>
           <ItemCardList></ItemCardList>
         </div>

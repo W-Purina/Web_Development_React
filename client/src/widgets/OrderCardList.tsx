@@ -11,6 +11,41 @@ const OrderCardList = () => {
           createdBy={"Bo Pang"}
           total={732}
         ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
+        <OrderCard
+          storeName="Countdown"
+          createdBy={"Bo Pang"}
+          total={732}
+        ></OrderCard>
       </div>
     </>
   );

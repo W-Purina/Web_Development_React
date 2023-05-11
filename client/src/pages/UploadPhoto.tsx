@@ -6,8 +6,6 @@ const UploadPhoto = () => {
   const [fileList, setFileList] = useState<ImageUploadItem[]>([]);
 
   const uploadImage = async (file: File): Promise<ImageUploadItem> => {
-    // 此处可以添加自定义的图片上传逻辑，例如上传到您自己的服务器
-    // 然后返回一个包含上传后图片 URL 的对象
     const reader = new FileReader();
     return new Promise((resolve, reject) => {
       reader.onloadend = () => {

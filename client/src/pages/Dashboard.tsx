@@ -10,8 +10,8 @@ const Dashboard = () => {
   return (
     <>
       <NavBar backArrow={false}>Dashboard</NavBar>
-      <div className={`${styles.dashboard} relative h-full`}>
-        <div className={`${styles.dashboardBG} absolute inset-0`}>
+      <div className={`${styles.dashboard} `}>
+        <div className={`${styles.dashboardBG} inset-0 min-h-screen`}>
           <DashboardProfile></DashboardProfile>
           {/* Family list */}
           <FamilyCardList></FamilyCardList>
