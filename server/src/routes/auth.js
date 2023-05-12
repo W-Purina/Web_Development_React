@@ -20,8 +20,11 @@ router.post('/login', async (req, res) => {
         if (user){
             // 每一次用户登录只有14小时的授权
             const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET,{expiresIn: '14h' });
-            return res.header('auth-token', token).status(200).json({ message: 'Password is valid', token: token });
+            delete user.password;
+            console.log(user);
+            return res.header('auth-token', token).status(200).json({ message: 'Password is valid', token: token, user: user });
         } else {
+            
             return res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
