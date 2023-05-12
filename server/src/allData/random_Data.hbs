@@ -1,0 +1,51 @@
+{
+    "users": [
+        {{#repeat 10}}
+        {
+            "username": "{{username}}",
+            "password": "Password123",
+            "email": "{{email}}",
+            "firstName": "{{firstName}}",
+            "lastName": "{{lastName}}",
+            "dateOfBirth": "{{date '1975-01-01T00:01' '2000-12-31T23:59'}}",
+            "phonenumber": "{{phone}}",
+            "sex": "{{random 'male' 'female'}}",
+            "groups": []
+        }
+        {{/repeat}}
+    ],
+
+    "groups": [
+        {{#repeat 10}}
+        {
+            "groupname": "{{company}}{{@index}}",
+            "description": "{{lorem 1}}",
+            "isActive": {{boolean}},
+            "members": [],
+            "createdBy": null,
+            "orders": []
+        }
+        {{/repeat}}
+    ],
+
+    "orders": [
+        {{#repeat 20}}
+        {
+            "storename": "{{company}}",
+            "group": null,
+            "createdBy": null,
+            "items": [
+                {{#repeat min=1 max=5}}
+                {
+                    "productname": "{{productName}}",
+                    "unitprice": {{float 1 100 '0.01'}},
+                    "amount": {{int 1 10}},
+                    "productprice": {{float 1 100 '0.1'}}
+                }
+                {{/repeat}}
+            ],
+            "purchaseDate": "{{date '2020-01-01' '2023-12-31'}}"
+        }
+        {{/repeat}}
+    ]
+}
