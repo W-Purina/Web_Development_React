@@ -4,6 +4,9 @@ import {
   Button,
   DatePicker,
   FloatingBubble,
+  Form,
+  Input,
+  Modal,
   NavBar,
   Popup,
   Space,
@@ -36,6 +39,9 @@ const Group = () => {
 
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [adminPopupVisible, setAdminPopupVisible] = useState(false);
+
+  const [invitedMemberIdentifier, setInvitedMemberIdentifier] = useState("");
+  const [tempGroupName, setTempGroupName] = useState("");
 
   const right = (
     <div style={{ fontSize: 24 }}>
@@ -90,7 +96,6 @@ const Group = () => {
           borderTopRightRadius: "8px",
           minHeight: "40vh",
         }}
-        showCloseButton
       >
         {
           <>
@@ -99,12 +104,49 @@ const Group = () => {
             </div>
             <div className="p-5">
               <Space direction="vertical" block>
-                <Button block color="primary" size="large" fill="outline">
-                  Invite a Member
-                </Button>
-                <Button block color="primary" size="large" fill="outline">
-                  Modify Group Name
-                </Button>
+                <Form
+                  layout="horizontal"
+                  footer={
+                    <Button
+                      block
+                      color="primary"
+                      size="middle"
+                      fill="outline"
+                      onClick={() => console.log(invitedMemberIdentifier)}
+                    >
+                      Invite a Member
+                    </Button>
+                  }
+                >
+                  <Form.Item name="identifier" label="Identifier">
+                    <Input
+                      placeholder="Email or Username"
+                      onChange={setInvitedMemberIdentifier}
+                    ></Input>
+                  </Form.Item>
+                </Form>
+                <Form
+                  layout="horizontal"
+                  footer={
+                    <Button
+                      block
+                      color="primary"
+                      size="middle"
+                      fill="outline"
+                      onClick={() => console.log(tempGroupName)}
+                    >
+                      Modify Group Name
+                    </Button>
+                  }
+                >
+                  <Form.Item name="groupName" label="New Name">
+                    <Input
+                      placeholder="Enter new name here"
+                      onChange={setTempGroupName}
+                    ></Input>
+                  </Form.Item>
+                </Form>
+
                 <span className="my-20 text-sm text-gray-400">
                   Delete a Member:
                 </span>

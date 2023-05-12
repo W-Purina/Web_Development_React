@@ -9,14 +9,24 @@ import {
 } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { RefObject } from "react";
+import { RefObject, useContext, useEffect } from "react";
+import { UserContext } from "../contexts/UserContextProvider";
 
 const Profile = () => {
   const navigate = useNavigate();
+
+  const { user, setCurrentUser } = useContext(UserContext);
+
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue(user);
+  });
   return (
     <>
       <NavBar onBack={() => navigate("/dashboard")}>Profile</NavBar>
       <Form
+        form={form}
         layout="horizontal"
         footer={
           <>
@@ -30,13 +40,7 @@ const Profile = () => {
             </Space>
           </>
         }
-        initialValues={{
-          username: "@" + "ipangbo",
-          email: "i@ipangbo.cn",
-          firstName: "Bo",
-          lastName: "Pang",
-          dateOfBirth: new Date(),
-        }}
+        initialValues={{}}
       >
         <Form.Header>Modify your profile</Form.Header>
         <Form.Item name="username" label="Username" disabled required>
