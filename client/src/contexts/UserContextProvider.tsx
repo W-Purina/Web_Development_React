@@ -7,11 +7,12 @@ interface UserContextProviderProps {
 
 const initialValue = {
   user: {
+    _id: "id",
     username: "Not Login",
     email: "not login",
     firstName: "Not",
     lastName: "Login",
-  },
+  } as User,
   setCurrentUser: (value: User) => {
     console.log(value);
   },
@@ -21,6 +22,7 @@ export const UserContext = createContext(initialValue);
 
 const UserContextProvider = (props: UserContextProviderProps) => {
   const [user, setUser] = useState<User>({
+    _id: "id",
     username: "Not Login",
     email: "not login",
     firstName: "Not",

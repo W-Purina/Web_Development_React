@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import http from "../http/http";
 import {
   Button,
   DatePicker,
@@ -37,43 +38,55 @@ const GroupOrders = () => {
       navigate(`/group/${groupId}/${currentYear}/${currentMonth}`);
     }
 
-    setCurrentGroupDetails({
-      _id: "010101",
-      groupname: "1320/Unilodge on Whitaker Pl.",
-      members: [
-        "Bo Pang",
-        "Tianchuan Mi",
-        "Bo Li",
-        "Tianqi Jiang",
-        "Haoru Guan",
-      ],
-      createdBy: { $oid: "1" },
-      currentMonthCost: 1235,
-      orders: [
-        {
-          _id: "333",
-          storename: "Countdown",
-          createdBy: "Bo Pang",
-          purchaseDate: new Date().toString(),
-          totalPrice: 25,
-        },
-        {
-          _id: "555",
-          storename: "New World",
-          createdBy: "Bo Li",
-          purchaseDate: new Date().toString(),
-          totalPrice: 40,
-        },
-        {
-          _id: "333",
-          storename: "Warehouse",
-          createdBy: "Haoru Guan",
-          purchaseDate: new Date().toString(),
-          totalPrice: 125,
-        },
-      ],
-    });
+    // Test data
+    // setCurrentGroupDetails({
+    //   _id: "010101",
+    //   groupname: "1320/Unilodge on Whitaker Pl.",
+    //   members: [
+    //     "Bo Pang",
+    //     "Tianchuan Mi",
+    //     "Bo Li",
+    //     "Tianqi Jiang",
+    //     "Haoru Guan",
+    //   ],
+    //   createdBy: { $oid: "1" },
+    //   currentMonthCost: 1235,
+    //   orders: [
+    //     {
+    //       _id: "333",
+    //       storename: "Countdown",
+    //       createdBy: "Bo Pang",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 25,
+    //     },
+    //     {
+    //       _id: "555",
+    //       storename: "New World",
+    //       createdBy: "Bo Li",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 40,
+    //     },
+    //     {
+    //       _id: "333",
+    //       storename: "Warehouse",
+    //       createdBy: "Haoru Guan",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 125,
+    //     },
+    //   ],
+    // });
+    getGroupDetails();
   }, [groupId, year, month, navigate]);
+
+  const getGroupDetails = async () => {
+    try {
+      const resp = await http.get(
+        `/api/orders/queryByDate/${groupId}?year=${year}&month=${month}`
+      );
+    } catch {
+      Toast.show("No data in this month");
+    }
+  };
 
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [adminPopupVisible, setAdminPopupVisible] = useState(false);

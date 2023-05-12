@@ -4,6 +4,7 @@ import styles from "./Login.module.css";
 import http from "../http/http";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContextProvider";
+import { User } from "../types/User";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Login = () => {
       try {
         const resp = (await http.post("/auth/login", loginForm)) as any;
         localStorage.setItem("token", resp.token);
-        // console.log(resp);
+        setCurrentUser(resp.user as User);
 
         navigate("/dashboard");
       } catch {

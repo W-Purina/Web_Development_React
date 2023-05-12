@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { GroupsContext } from "../contexts/GroupsContextProvider";
 import http from "../http/http";
-
+import { UserContext } from "../contexts/UserContextProvider";
+import { Group } from "../types/Group";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const { setCurrentGroups } = useContext(GroupsContext);
 
   useEffect(() => {
@@ -41,8 +43,17 @@ const Dashboard = () => {
     //     currentMonthCost: 820,
     //   },
     // ]);
-    const resp = await http.
+    getGroupsOnDashboard();
   }, []);
+
+  const getGroupsOnDashboard = async () => {
+    console.log(user);
+
+    const resp = (await http.get(
+      `/api/users/queryGroupByUserid/${user["_id"]}`
+    )) as Group[];
+    setCurrentGroups(resp);
+  };
   return (
     <>
       <NavBar backArrow={false}>Dashboard</NavBar>
