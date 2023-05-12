@@ -231,14 +231,7 @@ Here's an overview of the available API endpoints:
 - Select orders by purchase date
     - Using **queryByDate()** function
     - Method: GET
-    - API: ```http://localhost:3000/api/orders/queryByDate/:groupId```
-    - Request body:
-    ```{js}
-    {
-        "year": "2021",
-        "month": "12"
-    }  
-    ```
+    - API: ```http://localhost:3000/api/orders/queryByDate/:groupId/:year/:month```
 - Select orders by order id
     - Using **queryOrderById()** function
     - Method: GET
