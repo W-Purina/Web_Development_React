@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, List, Space } from "antd-mobile";
+import { Button, Form, Input, List, Space, Toast } from "antd-mobile";
 import styles from "./Login.module.css";
 import http from "../http/http";
 
@@ -10,12 +10,13 @@ const Login = () => {
   const handleLogin = async () => {
     const loginForm = form.getFieldsValue();
     if (loginForm.identifier && loginForm.password) {
-      const resp = await http.post("/auth/login", loginForm);
-      console.log(resp);
+      try {
+        const resp = await http.post("/auth/login", loginForm);
+        navigate("/dashboard");
+      } catch {
+        Toast.show("Invalid identifier or password");
+      }
     }
-
-    //后端登录验证逻辑//
-    // navigate("/dashboard");
   };
 
   const handleRegister = () => {

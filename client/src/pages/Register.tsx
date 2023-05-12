@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, List, Space } from "antd-mobile";
+import { Button, Form, Input, List, Space, Toast } from "antd-mobile";
 import styles from "./Login.module.css";
 import http from "../http/http";
 
@@ -9,7 +9,12 @@ const Register = () => {
   const [form] = Form.useForm();
 
   const handleRegister = async () => {
-    http.post("/api/users/create-user-without-groups", form.getFieldsValue());
+    try {
+      await http.post("/api/users", form.getFieldsValue());
+      navigate("/login");
+    } catch {
+      Toast.show("Some thing went wrong...");
+    }
   };
 
   const handleLogin = () => {
@@ -44,11 +49,18 @@ const Register = () => {
               <Input placeholder="******" clearable type="password" />
             </Form.Item>
             <Form.Item
-              label="Ensure Password"
-              name="password2"
+              label="Last Name"
+              name="lastName"
               rules={[{ required: true, message: "required" }]}
             >
-              <Input placeholder="******" clearable type="password" />
+              <Input placeholder="" clearable />
+            </Form.Item>
+            <Form.Item
+              label="First Name"
+              name="firstName"
+              rules={[{ required: true, message: "required" }]}
+            >
+              <Input placeholder="" clearable />
             </Form.Item>
             <Space direction="vertical" block className=" mt-5">
               <Button
