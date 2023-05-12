@@ -13,6 +13,7 @@ import AddOrder from "./pages/AddOrder";
 import UserContextProvider from "./contexts/UserContextProvider";
 import GroupsContextProvider from "./contexts/GroupsContextProvider";
 import OrdersContextProvider from "./contexts/OrdersContextProvider";
+import { PrivateRoute } from "./PrivateRoute";
 
 const App = () => {
   return (
@@ -27,25 +28,59 @@ const App = () => {
                   <Route path="/register" element={<Register />} />
                   <Route
                     path="/dashboard"
-                    element={<Dashboard></Dashboard>}
+                    element={
+                      <PrivateRoute>
+                        <Dashboard></Dashboard>
+                      </PrivateRoute>
+                    }
                   ></Route>
-                  <Route path="/test" element={<UploadPhoto />} />
-                  <Route path="/profile" element={<Profile></Profile>} />
+                  <Route
+                    path="/test"
+                    element={
+                      <PrivateRoute>
+                        <UploadPhoto />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <PrivateRoute>
+                        <Profile></Profile>
+                      </PrivateRoute>
+                    }
+                  />
                   <Route
                     path="/group/addGroup"
-                    element={<AddGroup></AddGroup>}
+                    element={
+                      <PrivateRoute>
+                        <AddGroup></AddGroup>
+                      </PrivateRoute>
+                    }
                   />
                   <Route
                     path="/order/addOrder"
-                    element={<AddOrder></AddOrder>}
+                    element={
+                      <PrivateRoute>
+                        <AddOrder></AddOrder>
+                      </PrivateRoute>
+                    }
                   />
                   <Route
                     path="/group/:groupId/:year?/:month?"
-                    element={<GroupOrders></GroupOrders>}
+                    element={
+                      <PrivateRoute>
+                        <GroupOrders></GroupOrders>
+                      </PrivateRoute>
+                    }
                   />
                   <Route
                     path="/order/:orderId"
-                    element={<OrderDetails></OrderDetails>}
+                    element={
+                      <PrivateRoute>
+                        <OrderDetails></OrderDetails>
+                      </PrivateRoute>
+                    }
                   />
                 </Routes>
               </BrowserRouter>

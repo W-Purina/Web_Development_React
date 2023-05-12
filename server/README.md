@@ -38,8 +38,9 @@ Here's an overview of the available API endpoints:
 ### auth.js
 - Login
     - Using **loginUser()** function
-    - API: ```localhost:3000/auth/login```
-    - Request body :
+    - Method: POST
+    - API: ```http://localhost:3000/auth/login```
+    - Request body : 
     ```{js}
     {
         "identifier": "newUs11",
@@ -50,7 +51,8 @@ Here's an overview of the available API endpoints:
 ### users.js
 - Create a new account :  
     - Using **addUser()** function  
-    - API: ```localhost:3000/api/users```
+    - Method: POST
+    - API: ```http://localhost:3000/api/users```
     - Request body:  
     ```{js}
     {
@@ -69,10 +71,12 @@ Here's an overview of the available API endpoints:
     ```
 - Get user's information :
     - Using **queryUserInfoById()** function
-    - API: ```localhost:3000/api/users/:userId``` 
+    - Method: GET
+    - API: ```http://localhost:3000/api/users/:userId``` 
 - Update user's information : 
     - Using **updateUser()** function
-    - API: ```localhost:3000/api/users/updateuser```
+    - Method: PUT
+    - API: ```http://localhost:3000/api/users/updateuser```
     - Request body:  
     ```{js}
     {
@@ -102,10 +106,12 @@ Here's an overview of the available API endpoints:
     ```
 - Select user by user name
     - Using **queryBasicInfoByName()** function
-    - API: ```localhost:3000/api/users/userinfo/:username```
+    - Method: GET
+    - API: ```http://localhost:3000/api/users/userinfo/:username```
 - Delete a member from family
     - Using **deleteUserFromGroup()** function
-    - API: ```localhost:3000/api/users/delete```
+    - Method: DELETE
+    - API: ```http://localhost:3000/api/users/delete```
     - Request body:
     ```{js}
     {
@@ -128,7 +134,8 @@ Here's an overview of the available API endpoints:
 ### group.js
 - Create a new Group
     - Using **addGroups()** function
-    - API: ```localhost:3000/api/group```
+    - Method: POST
+    - API: ```http://localhost:3000/api/group```
     - Request body:
     ```{js}
     {
@@ -139,7 +146,8 @@ Here's an overview of the available API endpoints:
     ```
 - Update groupe information
     - Using **updateGroup()** function
-    - API: ```localhost:3000/api/group/:groupId```
+    - Method: PUT
+    - API: ```http://localhost:3000/api/group/:groupId```
     - Request body:
     ```{js}
     {
@@ -166,7 +174,8 @@ Here's an overview of the available API endpoints:
     ```
 - Add new member to group
     - Using **InsertUsersInGroupByGroupId()** function
-    - API: ```localhost:3000/api/groups/insertUsersInGroupByGroupId```
+    - Method: POST
+    - API: ```http://localhost:3000/api/groups/insertUsersInGroupByGroupId```
     - Request body:
     ```{js}
     {
@@ -176,13 +185,15 @@ Here's an overview of the available API endpoints:
     ```
 - Get recent purchases by groupId
     - Using **getRecentPurchasesByGroupId()** function
-    - API: ```localhost:3000/api/groups/recentPurchases/:groupId```
+    - Method: GET
+    - API: ```http://localhost:3000/api/groups/recentPurchases/:groupId```
 
   
 ### orders.js
 - Add a new order
     - Using **addOrders()** function
-    - API: ```localhost:3000/api/orders/addNewOrders```
+    - Method: POST
+    - API: ```http://localhost:3000/api/orders/addNewOrders```
     - Request body:
     ```{js}
     {
@@ -219,7 +230,8 @@ Here's an overview of the available API endpoints:
     ```
 - Select orders by purchase date
     - Using **queryByDate()** function
-    - API: ```localhost:3000/api/orders/queryByDate```
+    - Method: GET
+    - API: ```http://localhost:3000/api/orders/queryByDate/:groupId```
     - Request body:
     ```{js}
     {
@@ -227,9 +239,14 @@ Here's an overview of the available API endpoints:
         "month": "12"
     }  
     ```
+- Select orders by order id
+    - Using **queryOrderById()** function
+    - Method: GET
+    - API: ```http://localhost:3000/api/orders/:orderId```
 - Delete bill by id
     - Using **deleteOrderById()** function
-    - API: ```localhost:3000/api/orders/delete```
+    - Method: DELETE
+    - API: ```http://localhost:3000/api/orders/delete```
     - Request body:
     ```{js}
     {
@@ -238,7 +255,67 @@ Here's an overview of the available API endpoints:
     ```
 
 
-##  Testing
+## Testing
+
+Testing is divided into two main phases:
+
+### Phase 1: Database Initialization with HBS
+In this stage, we set up our test database. This involves the following steps:
+
+1. **Create a `random_Data.hbs` file**: This file will contain the Handlebars template used to generate our test data.
+
+2. **Create a `random_Data.js` file**: This file will run the Handlebars template and populate the database with the generated test data.
+
+3. **Run `random_Data.hbs` and `random_Data.js`**: Execute these scripts to initialize the database with the generated data.
+
+### Phase 2: Testing with Postman
+In the second stage, we test each operation using the Postman application. 
+
+1. **Postman Setup**: If you haven't already, download and install Postman on your local machine.
+
+2. **Import the Collection**: Import the Postman collection provided in the repository. This collection contains pre-configured requests for all available API endpoints.
+
+3. **Run the Requests**: For each API endpoint, select the corresponding request in Postman and click "Send". Check the results in the "Body" section of the "Response" pane. Make sure the data returned matches what you expect.
+
+### Example
+**Database Initialization with HBS**
+```{js}
+async function addUsers_test() {
+    // Utilize data simulation -- under normal circumstances, remove the loop, and convert the input parameters into UserInfo, where 'users' is the storage.
+    for (let userInfo of randomData.users) {
+        // Create Error Catching
+        try {
+            // create new object
+            const newUser = new User(userInfo);
+            await newUser.save();
+            console.log('New user has been added to the database.');
+            // return newUser;
+        } catch (error) {
+            console.error('Error occurred while adding new user to the database:', error);
+        }
+    }
+}
+```
+**Testing with Postman**  
+```{js}
+// Get user information
+// Require api：“ http://localhost:3000/api/users/6456eb073d477a819c2fa185 ”
+
+router.get('/:userId', async(req, res) => {
+    const {userId} = req.params;
+    const user = await queryUserInfoById(userId);
+    if (user) return res.status(200).header('Location', `api/users/${userId}`).json(user)
+    return res.sendStatus(404);
+})
+```
+
+Remember to always ensure your server is running before attempting to send requests via Postman.
+
+By following these two phases, you will be able to test the functionality and robustness of the API.
+
+Happy testing!
+
+
 
 
 ## Contributors
