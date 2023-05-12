@@ -168,7 +168,8 @@ async function loginUser(identifier, password) {
     const isPasswordValid = await user.verifyPassword(password);
     if (isPasswordValid) {
         console.log('Password is valid.');
-        return true;
+        user.password = undefined;
+        return user;
     } else {
         console.log('Password is invalid.');
         return false;
