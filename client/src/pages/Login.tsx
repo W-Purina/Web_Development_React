@@ -2,16 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, List, Space, Toast } from "antd-mobile";
 import styles from "./Login.module.css";
 import http from "../http/http";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContextProvider";
 
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const { setCurrentUser } = useContext(UserContext);
 
   const handleLogin = async () => {
     const loginForm = form.getFieldsValue();
     if (loginForm.identifier && loginForm.password) {
       try {
-        const resp = await http.post("/auth/login", loginForm);
+        const resp = (await http.post("/auth/login", loginForm)) as any;
+        localStorage.setItem("token", resp.token);
+        // console.log(resp);
+
         navigate("/dashboard");
       } catch {
         Toast.show("Invalid identifier or password");
@@ -20,7 +26,7 @@ const Login = () => {
   };
 
   const handleRegister = () => {
-    //点击注册按钮直接转到注册页面
+    //点击注册按钮直接转到注册页面.
     navigate("/register");
   };
 
