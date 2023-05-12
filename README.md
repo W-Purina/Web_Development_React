@@ -7,7 +7,7 @@ Make sure, the computer have already download **Docker** and **Docke Compose**.
 If you can't start Docker, check the computer whether have WSL and download Ubuntu.   
 
 ## Second
-Make sure the DockerDesk have already start.
+Make sure the DockerDeskTop have already start.
 
 ## Third
 Start the project terminal.   
