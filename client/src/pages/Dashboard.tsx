@@ -6,6 +6,8 @@ import styles from "./Dashboard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { GroupsContext } from "../contexts/GroupsContextProvider";
+import http from "../http/http";
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,32 +15,33 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Test data
-    setCurrentGroups([
-      {
-        _id: "010101",
-        groupname: "17A/Columbia Apartment",
-        members: [
-          "Yuqian Ma",
-          "Henry Liu",
-          "Shengzhe Liu",
-          "Ruiyu Peng",
-          "Zihui Yang",
-        ],
-        currentMonthCost: 420,
-      },
-      {
-        _id: "020202",
-        groupname: "1320/Unilodge on Whitaker Pl.",
-        members: [
-          "Bo Pang",
-          "Tianchuan Mi",
-          "Bo Li",
-          "Tianqi Jiang",
-          "Haoru Guan",
-        ],
-        currentMonthCost: 820,
-      },
-    ]);
+    // setCurrentGroups([
+    //   {
+    //     _id: "010101",
+    //     groupname: "17A/Columbia Apartment",
+    //     members: [
+    //       "Yuqian Ma",
+    //       "Henry Liu",
+    //       "Shengzhe Liu",
+    //       "Ruiyu Peng",
+    //       "Zihui Yang",
+    //     ],
+    //     currentMonthCost: 420,
+    //   },
+    //   {
+    //     _id: "020202",
+    //     groupname: "1320/Unilodge on Whitaker Pl.",
+    //     members: [
+    //       "Bo Pang",
+    //       "Tianchuan Mi",
+    //       "Bo Li",
+    //       "Tianqi Jiang",
+    //       "Haoru Guan",
+    //     ],
+    //     currentMonthCost: 820,
+    //   },
+    // ]);
+    const resp = await http.
   }, []);
   return (
     <>
