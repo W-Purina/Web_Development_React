@@ -2,8 +2,21 @@ import { Image } from "antd-mobile";
 import styles from "./DashboardProfile.module.css";
 import testAvatar from "../assets/testAvatar.jpg";
 import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../contexts/UserContextProvider";
+import { GroupsContext } from "../contexts/GroupsContextProvider";
+import dayjs from "dayjs";
 
 const DashboardProfile = () => {
+  const { user } = useContext(UserContext);
+  const { groups } = useContext(GroupsContext);
+
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setTotal(
+      groups.reduce((total, group) => total + group.currentMonthCost, 0)
+    );
+  }, [groups]);
   return (
     <>
       {/* The profile box */}
@@ -24,10 +37,10 @@ const DashboardProfile = () => {
                 <span
                   className={`${styles.shadowText} mb-1 text-2xl text-white`}
                 >
-                  Bo Pang
+                  {user.firstName + " " + user.lastName}
                 </span>
                 <span className={`${styles.shadowText} text-base text-white`}>
-                  @ipangbo
+                  @{user.username}
                 </span>
               </div>
             </div>
@@ -35,12 +48,12 @@ const DashboardProfile = () => {
           {/* Total summary */}
           <div className="mr-3 flex flex-col justify-center">
             <span className={`${styles.shadowText} mb-1 text-base text-white`}>
-              May, 2023 Total:
+              {dayjs().format("MMM")}, {dayjs().format("YYYY")} Total:
             </span>
             <span
               className={`${styles.shadowText} mb-1 text-right text-3xl text-white`}
             >
-              $1443
+              ${total}
             </span>
           </div>
         </div>

@@ -9,12 +9,13 @@ import { GroupsContext } from "../contexts/GroupsContextProvider";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { groups, setCurrentGroups } = useContext(GroupsContext);
+  const { setCurrentGroups } = useContext(GroupsContext);
 
   useEffect(() => {
     // Test data
     setCurrentGroups([
       {
+        _id: "010101",
         groupname: "17A/Columbia Apartment",
         members: [
           "Yuqian Ma",
@@ -23,9 +24,10 @@ const Dashboard = () => {
           "Ruiyu Peng",
           "Zihui Yang",
         ],
-        currentMonthCost: 410,
+        currentMonthCost: 420,
       },
       {
+        _id: "020202",
         groupname: "1320/Unilodge on Whitaker Pl.",
         members: [
           "Bo Pang",
@@ -45,7 +47,7 @@ const Dashboard = () => {
         <div className={`${styles.dashboardBG} inset-0 min-h-screen`}>
           <DashboardProfile></DashboardProfile>
           {/* Family list */}
-          <FamilyCardList groupsData={groups}></FamilyCardList>
+          <FamilyCardList></FamilyCardList>
           <FloatingBubble
             style={{
               "--initial-position-bottom": "24px",

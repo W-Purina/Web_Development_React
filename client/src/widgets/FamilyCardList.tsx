@@ -1,16 +1,16 @@
+import { useContext } from "react";
 import FamilyCard from "../components/FamilyCard";
-import { Group } from "../types/Group";
+import { GroupsContext } from "../contexts/GroupsContextProvider";
 
-interface FamilyCardListProps {
-  groupsData: Group[];
-}
-const FamilyCardList = ({ groupsData }: FamilyCardListProps) => {
+const FamilyCardList = () => {
+  const { groups } = useContext(GroupsContext);
   return (
     <>
       <div className="p-5">
-        {groupsData.map((item, index) => {
+        {groups.map((item, index) => {
           return (
             <FamilyCard
+              groupId={item._id}
               familyName={item.groupname}
               familyMembers={item.members}
               total={item.currentMonthCost || 0}

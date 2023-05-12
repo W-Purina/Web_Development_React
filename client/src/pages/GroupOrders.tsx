@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -6,7 +6,6 @@ import {
   FloatingBubble,
   Form,
   Input,
-  Modal,
   NavBar,
   Popup,
   Space,
@@ -21,10 +20,12 @@ import {
 import styles from "./Dashboard.module.css";
 import GroupProfile from "../widgets/GroupProfile";
 import OrderCardList from "../widgets/OrderCardList";
+import { GroupsContext } from "../contexts/GroupsContextProvider";
 
-const Group = () => {
+const GroupOrders = () => {
   const { groupId, year, month } = useParams();
   const navigate = useNavigate();
+  const { groupDetails, setCurrentGroupDetails } = useContext(GroupsContext);
 
   useEffect(() => {
     // If year and month not provided, use current date.
@@ -35,6 +36,43 @@ const Group = () => {
 
       navigate(`/group/${groupId}/${currentYear}/${currentMonth}`);
     }
+
+    setCurrentGroupDetails({
+      _id: "010101",
+      groupname: "1320/Unilodge on Whitaker Pl.",
+      members: [
+        "Bo Pang",
+        "Tianchuan Mi",
+        "Bo Li",
+        "Tianqi Jiang",
+        "Haoru Guan",
+      ],
+      createdBy: { $oid: "1" },
+      currentMonthCost: 1235,
+      orders: [
+        {
+          _id: "333",
+          storename: "Countdown",
+          createdBy: "Bo Pang",
+          purchaseDate: new Date().toString(),
+          totalPrice: 25,
+        },
+        {
+          _id: "555",
+          storename: "New World",
+          createdBy: "Bo Li",
+          purchaseDate: new Date().toString(),
+          totalPrice: 40,
+        },
+        {
+          _id: "333",
+          storename: "Warehouse",
+          createdBy: "Haoru Guan",
+          purchaseDate: new Date().toString(),
+          totalPrice: 125,
+        },
+      ],
+    });
   }, [groupId, year, month, navigate]);
 
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -83,7 +121,20 @@ const Group = () => {
         }}
         precision="month"
         onConfirm={val => {
-          Toast.show(val.toString());
+          const now = new Date();
+          if (
+            val.getFullYear().toString() +
+              val.getMonth().toString().padStart(2, "0") >
+            now.getFullYear().toString() +
+              now.getMonth().toString().padStart(2, "0")
+          )
+            Toast.show("It's too early");
+          else
+            navigate(
+              `/group/${groupDetails._id}/${val.getFullYear().toString()}/${(
+                val.getMonth() + 1
+              ).toString()}`
+            );
         }}
       />
       <Popup
@@ -205,4 +256,4 @@ const Group = () => {
   );
 };
 
-export default Group;
+export default GroupOrders;

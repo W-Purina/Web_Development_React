@@ -3,14 +3,20 @@ import styles from "./FamilyCard.module.css";
 import { Link } from "react-router-dom";
 
 interface FamilyCardProps {
+  groupId: string;
   familyName: string;
   familyMembers: string[];
   total: number;
 }
-const FamilyCard = ({ familyName, familyMembers, total }: FamilyCardProps) => {
+const FamilyCard = ({
+  groupId,
+  familyName,
+  familyMembers,
+  total,
+}: FamilyCardProps) => {
   return (
     <>
-      <Link to={"/group/1"}>
+      <Link to={`/group/${groupId}`}>
         <Card title={familyName} className={`${styles.familyCard} mb-8`}>
           <div className="flex items-center">
             <div className="flex h-full flex-grow">

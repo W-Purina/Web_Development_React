@@ -6,7 +6,8 @@ import styles from "./Dashboard.module.css";
 import OrderProfile from "../widgets/OrderProfile";
 import ItemCardList from "../widgets/ItemCardList";
 import { AppstoreOutline } from "antd-mobile-icons";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { OrdersContext } from "../contexts/OrdersContextProvider";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -23,6 +24,35 @@ const OrderDetails = () => {
   const [adminPopupVisible, setAdminPopupVisible] = useState(false);
 
   const { orderId } = useParams();
+
+  const { orderDetails, setCurrentOrderDetails } = useContext(OrdersContext);
+
+  useEffect(() => {
+    setCurrentOrderDetails({
+      _id: "777",
+      storename: "Warehouse",
+      purchaseDate: new Date().toString(),
+      totalPrice: 23.81,
+      createdBy: "Bo Li",
+      items: [
+        {
+          productname: "Autie Dai's Chive Pork Dumplings",
+          amount: 3,
+          productprice: 33.3,
+        },
+        {
+          productname: "Tegel California Chicken Portrait",
+          amount: 1,
+          productprice: 15.06,
+        },
+        {
+          productname: "Living & Co Air Fryer",
+          amount: 1,
+          productprice: 79.9,
+        },
+      ],
+    });
+  }, []);
 
   return (
     <>

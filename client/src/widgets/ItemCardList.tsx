@@ -1,25 +1,22 @@
+import { useContext } from "react";
 import ItemCard from "../components/ItemCard";
-import OrderCard from "../components/OrderCard";
+import { OrdersContext } from "../contexts/OrdersContextProvider";
 
 const ItemCardList = () => {
+  const { orderDetails } = useContext(OrdersContext);
   return (
     <>
       <div className="p-5">
-        <ItemCard
-          itemName="Tegel Southern Toasted Nibbles"
-          amount={2}
-          totalPrice={7.69}
-        ></ItemCard>
-        <ItemCard
-          itemName="Anchor Blue Milk 2L"
-          amount={1}
-          totalPrice={6.09}
-        ></ItemCard>
-        <ItemCard
-          itemName="Countdown Cage Free Eggs 12pk"
-          amount={1}
-          totalPrice={9.87}
-        ></ItemCard>
+        {orderDetails.items.map((item, index) => {
+          return (
+            <ItemCard
+              itemName={item.productname}
+              amount={item.amount}
+              totalPrice={item.productprice}
+              key={index}
+            ></ItemCard>
+          );
+        })}
       </div>
     </>
   );

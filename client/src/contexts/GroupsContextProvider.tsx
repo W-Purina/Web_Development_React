@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { Group } from "../types/Group";
+import { Group, GroupDetails } from "../types/Group";
 
 interface GroupsContextProviderProps {
   children: React.ReactNode;
@@ -8,6 +8,15 @@ interface GroupsContextProviderProps {
 const initialValue = {
   groups: [] as Group[],
   setCurrentGroups: (value: Group[]) => console.log(value),
+  groupDetails: {
+    _id: "",
+    groupname: "Default name",
+    members: [],
+    createdBy: { $oid: "" },
+    currentMonthCost: 0,
+    orders: [],
+  } as GroupDetails,
+  setCurrentGroupDetails: (value: GroupDetails) => console.log(value),
 };
 
 export const GroupsContext = createContext(initialValue);
@@ -19,8 +28,23 @@ const GroupsContextProvider = (props: GroupsContextProviderProps) => {
     setGroups(value);
   };
 
+  const [groupDetails, setGroupDetails] = useState<GroupDetails>({
+    _id: "",
+    groupname: "Default name",
+    members: [],
+    createdBy: { $oid: "" },
+    currentMonthCost: 0,
+    orders: [],
+  });
+
+  const setCurrentGroupDetails = (value: GroupDetails) => {
+    setGroupDetails(value);
+  };
+
   return (
-    <GroupsContext.Provider value={{ groups, setCurrentGroups }}>
+    <GroupsContext.Provider
+      value={{ groups, setCurrentGroups, groupDetails, setCurrentGroupDetails }}
+    >
       {props.children}
     </GroupsContext.Provider>
   );
