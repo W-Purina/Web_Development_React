@@ -22,6 +22,7 @@ import styles from "./Dashboard.module.css";
 import GroupProfile from "../widgets/GroupProfile";
 import OrderCardList from "../widgets/OrderCardList";
 import { GroupsContext } from "../contexts/GroupsContextProvider";
+import { GroupDetails } from "../types/Group";
 
 const GroupOrders = () => {
   const { groupId, year, month } = useParams();
@@ -80,9 +81,10 @@ const GroupOrders = () => {
 
   const getGroupDetails = async () => {
     try {
-      const resp = await http.get(
+      const resp = (await http.get(
         `/api/orders/queryByDate/${groupId}?year=${year}&month=${month}`
-      );
+      )) as GroupDetails;
+      setCurrentGroupDetails(resp);
     } catch {
       Toast.show("No data in this month");
     }
