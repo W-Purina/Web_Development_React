@@ -1,13 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, List, Space } from "antd-mobile";
 import styles from "./Login.module.css";
+import http from "../http/http";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    const loginForm = form.getFieldsValue();
+    if (loginForm.identifier && loginForm.password) {
+      const resp = await http.post("/auth/login", loginForm);
+      console.log(resp);
+    }
+
     //后端登录验证逻辑
-    navigate("/dashboard");
+    // navigate("/dashboard");
   };
 
   const handleRegister = () => {
@@ -20,28 +28,43 @@ const Login = () => {
       <div className={styles.container}>
         <div className={styles.border}>
           <div className={styles.listHeader}> Notable Nightingales</div>
-          <Form layout="horizontal">
-            <Form.Item label="Username" name="username">
+          <Form layout="horizontal" form={form}>
+            <Form.Item
+              label="Username"
+              name="identifier"
+              rules={[{ required: true, message: "required" }]}
+            >
               <Input placeholder="abc123@aucklanduni.ac.nz" clearable />
             </Form.Item>
-            <Form.Item label="Password" name="password">
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: "required" }]}
+            >
               <Input placeholder="******" clearable type="password" />
             </Form.Item>
+
+            <Space direction="vertical" block className=" mt-5">
+              <Button
+                block
+                color="primary"
+                size="large"
+                onClick={handleLogin}
+                type="submit"
+              >
+                Login
+              </Button>
+              <Button
+                block
+                color="primary"
+                size="large"
+                fill="outline"
+                onClick={handleRegister}
+              >
+                No account? Register
+              </Button>
+            </Space>
           </Form>
-          <Space direction="vertical" block className=" mt-5">
-            <Button block color="primary" size="large" onClick={handleLogin}>
-              Login
-            </Button>
-            <Button
-              block
-              color="primary"
-              size="large"
-              fill="outline"
-              onClick={handleRegister}
-            >
-              No account? Register
-            </Button>
-          </Space>
         </div>
       </div>
     </>
