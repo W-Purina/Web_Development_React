@@ -20,18 +20,18 @@ async function main(){
     
     // 向数据库里添加东西
 
-    // 删除操作
-    // 删除User
-    await clearDatabase(User);
-    console.log();
+    // // 删除操作
+    // // 删除User
+    // await clearDatabase(User);
+    // console.log();
 
-    // 删除Group
-    await clearDatabase(Group);
-    console.log();
+    // // 删除Group
+    // await clearDatabase(Group);
+    // console.log();
     
-    // 删除Order
-    await clearDatabase(Order);
-    console.log();
+    // // 删除Order
+    // await clearDatabase(Order);
+    // console.log();
 
 
     // 添加User操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
@@ -45,7 +45,6 @@ async function main(){
     // 添加Order操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
     const newOrder = await addOrders_test();
     // console.log('new Order:', newOrder);
-    
 
 
     // 断开数据库

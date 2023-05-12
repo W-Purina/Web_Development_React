@@ -12,8 +12,8 @@ const router = express.Router();
 // 请求 api：“ localhost:3000/api/users ”
 // 请求body：
 // {
-//     "username": "newUs11",
-//     "password": "Yzh123123",
+    // "username": "newUs11",
+    // "password": "Yzh123123",
 //     "email": "eld@hivemind.com",
 //     "firstName": "El",
 //     "lastName": "Ra",

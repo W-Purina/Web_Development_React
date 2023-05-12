@@ -30,11 +30,24 @@ npm start
 ```
 ##   API Endpoints
 Here's an overview of the available API endpoints:  
+- /auth: Login function by JWT
 - /api/users: User creation and management
 - /api/group: Group creation and management
 - /api/orders: Order creation and management
 
-### 1. users.js
+### auth.js
+- Login
+    - Using **loginUser()** function
+    - API: ```localhost:3000/auth/login```
+    - Request body :
+    ```{js}
+    {
+        "identifier": "newUs11",
+        "password": "Yzh123123" 
+    }
+    ```
+    - Pass the plaintext password
+### users.js
 - Create a new account :  
     - Using **addUser()** function  
     - API: ```localhost:3000/api/users```
@@ -87,16 +100,6 @@ Here's an overview of the available API endpoints:
         "sex": "female"
   }
     ```
-- Login
-    - Using **loginUser()** function
-    - API: ```localhost:3000/api/users/login```
-    - Request body :
-    ```{js}
-    {
-        "email": "travis.porras@citisys.mobi",
-        "password": "$2b$10$0TnDSnCCa7sTQZwOxd.4iuO8DUfnLicJ.TsnmDCVtWX8w5oHAff3."
-    }
-    ```
 - Select user by user name
     - Using **queryBasicInfoByName()** function
     - API: ```localhost:3000/api/users/userinfo/:username```
@@ -122,7 +125,7 @@ Here's an overview of the available API endpoints:
     - Using **queryGroupByUserid1()** function
     - API: ```localhost:3000/api/users/queryGroupByUserid/:userId```
   
-### 2. group.js
+### group.js
 - Create a new Group
     - Using **addGroups()** function
     - API: ```localhost:3000/api/group```
@@ -176,7 +179,7 @@ Here's an overview of the available API endpoints:
     - API: ```localhost:3000/api/groups/recentPurchases/:groupId```
 
   
-### 3. orders.js
+### orders.js
 - Add a new order
     - Using **addOrders()** function
     - API: ```localhost:3000/api/orders/addNewOrders```
@@ -184,7 +187,8 @@ Here's an overview of the available API endpoints:
     ```{js}
     {
         "storename": "countdown",
-        "group": {"$oid": "6456eb083d477a819c2fa1b6"},
+        "group": {"$oid": "645db5c83b1d552ae2604417"},
+        "createdBy":{"$oid": "645db5c83b1d552ae2604408"},
         "items": [
             {
                 "productname": "milk",

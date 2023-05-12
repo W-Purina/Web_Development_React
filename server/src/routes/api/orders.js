@@ -13,46 +13,43 @@ const router = express.Router();
 // 请求 api: " localhost:3000/api/orders/addNewOrders "
 // 请求例子：
 // {
-//     "storename": "countdown",
-//     "group": {
-//       "$oid": "6456eb083d477a819c2fa1b6"
-//     },
-//     "items": [
+//   "storename": "countdown",
+//   "group": {"$oid": "645db5c83b1d552ae2604417"},
+//   "createdBy":{"$oid": "645db5c83b1d552ae2604408"},
+//   "items": [
 //       {
-//         "productname": "milk",
-//         "unitprice": 83,
-//         "amount": 3,
-//         "productprice": 99
+//           "productname": "milk",
+//           "unitprice": 83,
+//           "amount": 3,
+//           "productprice": 99
 //       },
 //       {
-//         "productname": "apple",
-//         "unitprice": 77,
-//         "amount": 1,
-//         "productprice": 58
+//           "productname": "apple",
+//           "unitprice": 77,
+//           "amount": 1,
+//           "productprice": 58
 //       },
 //       {
-//         "productname": "banana",
-//         "unitprice": 2,
-//         "amount": 10
+//           "productname": "banana",
+//           "unitprice": 2,
+//           "amount": 10
 //       },
 //       {
-//         "productname": "book",
-//         "unitprice": 58,
-//         "amount": 10,
-//         "productprice": 30
+//           "productname": "book",
+//           "unitprice": 58,
+//           "amount": 10,
+//           "productprice": 30
 //       }
-//     ],
-//     "purchaseDate": {
-//       "$date": "2021-08-22T13:13:34.000Z"
-//     }
-//   }
+//   ],
+//   "purchaseDate": {"$date": "2021-08-22T13:13:34.000Z"}
+// }
 // 通过测试 ( •̀ ω •́ )y
 router.post('/addNewOrders', async(req, res) => {
     const rawData = req.body;
     
     rawData.group = new mongoose.Types.ObjectId(rawData.group.$oid);
     rawData.purchaseDate = new Date(rawData.purchaseDate.$date);
-
+    rawData.createdBy = new mongoose.Types.ObjectId(rawData.createdBy.$oid);
     const newOrder = await addOrders(rawData);
 
     if (newOrder) return res.status(HTTP_CREATED)
