@@ -1,13 +1,12 @@
 export interface Group {
   groupname: string;
   description?: string;
-  members: {
-    $oid: string;
-  }[];
-  createdBy: {
+  members: string[];
+  createdBy?: {
     $oid: string;
   };
-  orders: {
+  orders?: {
     $oid: string;
   }[];
+  currentMonthCost?: number;
 }

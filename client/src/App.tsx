@@ -11,36 +11,39 @@ import OrderDetails from "./pages/OrderDetails";
 import AddGroup from "./pages/AddGroup";
 import AddOrder from "./pages/AddOrder";
 import UserContextProvider from "./contexts/UserContextProvider";
+import GroupsContextProvider from "./contexts/GroupsContextProvider";
 
 const App = () => {
   return (
     <>
-      <UserContextProvider>
-        <ConfigProvider locale={enUS}>
-          <BrowserRouter basename="/">
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/dashboard"
-                element={<Dashboard></Dashboard>}
-              ></Route>
-              <Route path="/test" element={<UploadPhoto />} />
-              <Route path="/profile" element={<Profile></Profile>} />
-              <Route path="/group/addGroup" element={<AddGroup></AddGroup>} />
-              <Route path="/order/addOrder" element={<AddOrder></AddOrder>} />
-              <Route
-                path="/group/:groupId/:year?/:month?"
-                element={<GroupOrders></GroupOrders>}
-              />
-              <Route
-                path="/order/:orderId"
-                element={<OrderDetails></OrderDetails>}
-              />
-            </Routes>
-          </BrowserRouter>
-        </ConfigProvider>
-      </UserContextProvider>
+      <GroupsContextProvider>
+        <UserContextProvider>
+          <ConfigProvider locale={enUS}>
+            <BrowserRouter basename="/">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard></Dashboard>}
+                ></Route>
+                <Route path="/test" element={<UploadPhoto />} />
+                <Route path="/profile" element={<Profile></Profile>} />
+                <Route path="/group/addGroup" element={<AddGroup></AddGroup>} />
+                <Route path="/order/addOrder" element={<AddOrder></AddOrder>} />
+                <Route
+                  path="/group/:groupId/:year?/:month?"
+                  element={<GroupOrders></GroupOrders>}
+                />
+                <Route
+                  path="/order/:orderId"
+                  element={<OrderDetails></OrderDetails>}
+                />
+              </Routes>
+            </BrowserRouter>
+          </ConfigProvider>
+        </UserContextProvider>
+      </GroupsContextProvider>
     </>
   );
 };

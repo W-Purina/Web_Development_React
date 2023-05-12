@@ -1,25 +1,23 @@
 import FamilyCard from "../components/FamilyCard";
+import { Group } from "../types/Group";
 
-const FamilyCardList = () => {
+interface FamilyCardListProps {
+  groupsData: Group[];
+}
+const FamilyCardList = ({ groupsData }: FamilyCardListProps) => {
   return (
     <>
       <div className="p-5">
-        <FamilyCard
-          familyName="1902/Columbia Apt."
-          familyMembers={["Bo Pang", "Yuqian Ma", "Shengzhe Liu"]}
-          total={732}
-        ></FamilyCard>
-        <FamilyCard
-          familyName="1320/Unilodge at Whitaker Pl. Apt."
-          familyMembers={[
-            "Bo Pang",
-            "Tianchuan Mi",
-            "Bo Li",
-            "Tianqi Jiang",
-            "Haoru Guan",
-          ]}
-          total={711}
-        ></FamilyCard>
+        {groupsData.map((item, index) => {
+          return (
+            <FamilyCard
+              familyName={item.groupname}
+              familyMembers={item.members}
+              total={item.currentMonthCost || 0}
+              key={index}
+            ></FamilyCard>
+          );
+        })}
       </div>
     </>
   );
