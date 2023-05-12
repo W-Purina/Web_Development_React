@@ -74,20 +74,15 @@ router.get('/:orderId', async(req, res) => {
 
 
 // 按照日期查找账单
-// 请求例子：“ localhost:3000/api/orders/queryByDate/:groupId ”
-// 请求 body:
-// {
-//     "year": "2021",
-//     "month": "03"
-// }
+// 请求例子：“ localhost:3000/api/orders/queryByDate/:groupId/:year/:month ”
 // 通过测试 ( •̀ ω •́ )y
-router.get('/queryByDate/:groupId', async (req, res) => {
-    const groupId = req.params.groupId;
-    const {year, month} = req.body;
-    const selectedOrder = await queryByDate(groupId, year, month);
-    if ( selectedOrder ) return res.json(selectedOrder)
-    return res.sendStatus(HTTP_NOT_FOUND);
-})
+router.get('/queryByDate/:groupId/:year/:month', async (req, res) => {
+  const { groupId, year, month } = req.params;
+  const selectedOrder = await queryByDate(groupId, year, month);
+  if (selectedOrder) return res.json(selectedOrder);
+  return res.sendStatus(HTTP_NOT_FOUND);
+});
+
 
 // delete bill
 // 请求 api：‘ localhost:3000/api/orders/delete ’\
