@@ -1,7 +1,7 @@
 # project-group-notable-nightingales
-<h1>
+<h3>
 To simulate the mobile version of a website in a browser
-<h1>
+<h3>
 
 # How to Start Project
 <h3>
