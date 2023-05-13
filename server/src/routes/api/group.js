@@ -1,5 +1,5 @@
 import express from "express";
-import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId} from "./../../allData/app";
+import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId, getGroupById} from "./../../allData/app";
 import mongoose from "mongoose";
 
 const HTTP_CREATED = 201;
@@ -95,7 +95,7 @@ router.put('/:groupId', async(req, res) => {
 
 
 // 向小组中添加新成员
-// 请求 api：localhost:3000/api/groups/insertUsersInGroupByGroupId
+// 请求 api：localhost:3000/api/group/insertUsersInGroupByGroupId
 // 请求 body：
 // {
 //     "username": "mwallis",
@@ -117,7 +117,7 @@ router.post('/insertUsersInGroupByGroupId', async (req, res) => {
   
 
 // 通过groupId获取最近一个月的所有购买记录
-// 请求API：“localhost:3000/api/orders/recentPurchases/6458758cd7cb952d83555cdd”
+// 请求API：“localhost:3000/api/group/recentPurchases/6458758cd7cb952d83555cdd”
 // 请求body：
 // {
 //     "year":"2021",
@@ -137,5 +137,21 @@ router.get('/recentPurchases/:groupid', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   });
+
+// 通过groupId查找小组详细信息，不包含order
+// 请求API：localhost:3000/api/group/groupInfo/:groupId
+  router.get('/groupInfo/:groupid', async(req, res) => {
+    const { groupid } = req.params;
+    try {
+        const result = await getGroupById(groupid);
+        if (result.success) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json(result);
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  })
 
 export default router;
