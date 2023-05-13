@@ -1,5 +1,7 @@
 # project-group-notable-nightingales
-
+<h1>
+To simulate the mobile version of a website in a browser
+<h1>
 
 # How to Start Project
 <h3>
@@ -58,7 +60,7 @@ Container mongo                                          Started
 Container nginx                                          Started   
 ```
 4. You can see the Containers in DockerDeskTop
-[DockerExample](DockerDeskTop.png)   
+[DockerExample-images](images/DockerDesktop.png)   
  
 5. Open your preferred web browser, Enter the following URL in the address bar: `http://localhost/login`
 You can see the Project.
@@ -69,3 +71,48 @@ You can see the Project.
 - Shutting down the server using the terminal: You can use the command `docker-compose down in` the terminal to shut down the server. After shutting down the server, if you want to start it again, you can use the command `docker-compose up -d --build` to rebuild and start the server.
 
 
+# Project Functionality
+## [Login](images/login.png)
+<h4>
+Upon accessing the page, the user will be prompted to log in. If they don't have an account, they can click on the "Register" button. For existing users, they need to enter their email and password. If the credentials are correct, they will be redirected to the dashboard. If the credentials are incorrect, an error message will be displayed.
+<h4>
+
+## [Register](images/register.png)
+Upon entering the registration page, users are required to input all the requested information.
+
+ **The password must be at least 6 characters long and include a combination of uppercase letters, lowercase letters, and numbers.**
+
+Failure to meet these requirements will result in an unsuccessful registration attempt with an appropriate error message. 
+
+**Repeated registration is also not allowed.**
+
+Upon successful registration, users will be redirected to the login page, where they can enter their corresponding email and password to log in.
+
+
+### [Example](images/Register-eg.png)
+
+## [DashBoard](images/dashboard.png)
+When logged into the dashboard, it will display the user's profile picture, full name, balance, and the groups the user is a member of. Additionally, there is a plus icon in the bottom right corner that allows users to [add new groups](images/AddGroup.png).
+                           
+Clicking on the plus icon will redirect you to the "Add Group" page.,need add a corresponding description and select group members.
+                        
+[User-info](images/update-user.png)
+Clicking on the profile picture will redirect you to the "Personal Information" page, where you can modify your personal information. Clicking on "Logout" will allow you to log out and return to the login page. When updating your information, clicking on "Update" will trigger the personal information update process.
+ 
+## [GroupsOrder](images/Groups.png)
+The dashboard displays all the groups that the individual has joined. By clicking on any of the groups, you can view the recent expenses and specific amounts associated with the group.
+
+### [GroupMember](images/Groups-control.png)
+On the GroupOrder page, there are two buttons at the top:
+
+"Manage Group Members" button: This button allows you to search for and manage the members of the group. You can make changes such as adding or removing members, updating member information, or adjusting member roles within the group.
+
+### [Calendar](images/date.png)
+"View Expenses by Year and Month" button: This button allows you to view expenses categorized by year and month. You can select a specific year and month to see the breakdown of expenses and their corresponding destinations for that period.
+
+
+## [OrderDetail](images/order-detail.png)
+The group orders page will display the recent expenses and corresponding amounts within the group.
+
+## [AddOrder](images/AddOrder.png)
+Clicking on the plus icon under the group orders page will redirect you to the "Add Order Information" page. Here, you can enter the store name, total expenses, and upload a photo for analysis and processing by ChatGPT. The total price will be extracted and displayed as output.
