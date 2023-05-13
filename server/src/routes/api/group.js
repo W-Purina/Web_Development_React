@@ -1,5 +1,5 @@
 import express from "express";
-import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId, getGroupById} from "./../../allData/app";
+import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId, getGroupById, deleteGroupById} from "./../../allData/app";
 import mongoose from "mongoose";
 
 const HTTP_CREATED = 201;
@@ -153,5 +153,25 @@ router.get('/recentPurchases/:groupid', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   })
+
+// delete group
+// 请求 api：‘ localhost:3000/api/group/deleteGroupById ’
+// {
+//     "id":{
+//         "$oid": "645db5c83b1d552ae2604417"
+//     }
+// }
+// 通过测试 ( •̀ ω •́ )y
+router.delete('/deleteGroupById', async (req, res) => {
+    const id = new mongoose.Types.ObjectId(req.body.id.$oid);
+
+    const result = await deleteGroupById(id);
+  
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(400).json(result);
+    }
+});
 
 export default router;
