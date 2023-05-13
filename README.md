@@ -98,13 +98,13 @@ Clicking on the plus icon will redirect you to the "Add Group" page.,need add a 
                         
 [User-info](images/update-user.png)
 Clicking on the profile picture will redirect you to the "Personal Information" page, where you can modify your personal information. Clicking on "Logout" will allow you to log out and return to the login page. When updating your information, clicking on "Update" will trigger the personal information update process.
- 
-## [GroupsOrder](images/Groups.png)
+                               
 The dashboard displays all the groups that the individual has joined. By clicking on any of the groups, you can view the recent expenses and specific amounts associated with the group.
-
-### [GroupMember](images/Groups-control.png)
+   
+## [GroupsOrder](images/Groups.png)
 On the GroupOrder page, there are two buttons at the top:
-
+   
+### [GroupMember](images/Groups-control.png)
 "Manage Group Members" button: This button allows you to search for and manage the members of the group. You can make changes such as adding or removing members, updating member information, or adjusting member roles within the group.
 
 ### [Calendar](images/date.png)
