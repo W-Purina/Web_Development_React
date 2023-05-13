@@ -1,6 +1,24 @@
 #创建在server和client同级的文件下
+
 version: "3.8"
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    depends_on:
+      - backend #确保在启动Nginx之前先启动后端服务
+      - frontend
+
+  backend:
+    build: ./server #构建位于当前文件夹的后端项目
+    container_name: server
+    ports:
+      - "3000:3000" #将宿主机的3000端口映射到后端服务容器的3000端口
+    environment:
+      - DB_URL=mongodb://mongo:27017/test1
+
   frontend:
     build:
       # 将构建上下文设置为当前目录，它包含 server 和 client 文件夹
@@ -11,5 +29,17 @@ services:
     ports:
       - "80:80"
 
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+      #宿主机端口映射，MongoDB的默认监听端口号是27017
+    volumes:
+      - mongodata:/data/db
+    #将名为mongodata的Docker数据卷映射到MongoDb容器的/data/db目录下
+
+volumes:
+  mongodata:
 
 

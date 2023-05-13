@@ -16,8 +16,6 @@ COPY client/ .
 # 构建生产版本的前端应用
 RUN npm run build
 
-RUN mkdir -p /output && cp -R /app/dist /output/dist
-
 # 使用 Nginx 镜像作为基础镜像
 FROM nginx:latest
 
@@ -32,6 +30,3 @@ EXPOSE 80
 
 # 启动 Nginx 服务
 CMD ["nginx", "-g", "daemon off;"]
-
-
-

@@ -301,6 +301,23 @@ async function addGroups(groupData) {
   }
 }
 
+// 通过Id获取小组详细信息
+async function getGroupById(groupId) {
+  try {
+    // 通过 groupId 获取 Group 文档，并用 'username' 替换 'members' 字段
+    const group = await Group.findById(groupId)
+      .populate("members", "username") // 只选择 'username' 字段，排除 '_id' 字段
+      .select("-orders");
+    return group;
+  } catch (error) {
+    console.error(
+      "Error occurred while getting group from the database:",
+      error
+    );
+    return null;
+  }
+}
+
 // 更新小组信息
 async function updateGroup(group) {
   try {
