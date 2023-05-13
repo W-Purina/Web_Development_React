@@ -3,7 +3,12 @@ export interface Order {
   storename: string;
   purchaseDate: string;
   totalPrice: number;
-  createdBy: string;
+  createdBy:
+    | {
+        _id: string;
+        username: string;
+      }
+    | string;
 }
 
 export interface OrderDetails {
@@ -11,6 +16,11 @@ export interface OrderDetails {
   storename: string;
   purchaseDate: string;
   totalPrice: number;
-  createdBy: string;
+  createdBy:
+    | {
+        _id: string;
+        username: string;
+      }
+    | string;
   items: { productname: string; amount: number; productprice: number }[];
 }

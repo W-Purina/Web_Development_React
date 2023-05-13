@@ -53,7 +53,7 @@ const DashboardProfile = () => {
             <span
               className={`${styles.shadowText} mb-1 text-right text-3xl text-white`}
             >
-              ${total}
+              ${Number(total).toFixed(2)}
             </span>
           </div>
         </div>

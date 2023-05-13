@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, NavBar, Popup, Space } from "antd-mobile";
+import { Button, Dialog, NavBar, Popup, Space, Toast } from "antd-mobile";
 
 import styles from "./Dashboard.module.css";
 
@@ -8,6 +8,10 @@ import ItemCardList from "../widgets/ItemCardList";
 import { AppstoreOutline } from "antd-mobile-icons";
 import { useContext, useEffect, useState } from "react";
 import { OrdersContext } from "../contexts/OrdersContextProvider";
+import http from "../http/http";
+import { OrderDetails } from "../types/Order";
+import { UserContext } from "../contexts/UserContextProvider";
+import { GroupsContext } from "../contexts/GroupsContextProvider";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -26,6 +30,8 @@ const OrderDetails = () => {
   const { orderId } = useParams();
 
   const { orderDetails, setCurrentOrderDetails } = useContext(OrdersContext);
+  const { user } = useContext(UserContext);
+  const { groupDetails } = useContext(GroupsContext);
 
   useEffect(() => {
     // setCurrentOrderDetails({
@@ -52,7 +58,37 @@ const OrderDetails = () => {
     //     },
     //   ],
     // });
-  }, []);
+    getOrderDetails();
+  }, [orderId]);
+
+  const getOrderDetails = async () => {
+    const resp = (await http.get("/api/orders/" + orderId)) as OrderDetails;
+    setCurrentOrderDetails(resp);
+  };
+
+  const handleDeleteOrder = async () => {
+    if (user._id !== groupDetails.createdBy._id) {
+      Toast.show("Only group owner could delete order.");
+    } else {
+      const result = await Dialog.confirm({
+        content: `Are you sure to delete current order?`,
+      });
+      if (result) {
+        try {
+          await http.delete("/api/orders/delete", {
+            data: {
+              id: {
+                $oid: orderDetails._id,
+              },
+            },
+          });
+          Toast.show("Delete succeed");
+        } catch {
+          Toast.show("Delete Error");
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -85,10 +121,13 @@ const OrderDetails = () => {
             </div>
             <div className="p-5">
               <Space direction="vertical" block>
-                <Button block color="primary" size="large" fill="outline">
-                  Modify the Order
-                </Button>
-                <Button block color="danger" size="large" fill="outline">
+                <Button
+                  block
+                  color="danger"
+                  size="large"
+                  fill="outline"
+                  onClick={handleDeleteOrder}
+                >
                   Delete the Order
                 </Button>
               </Space>

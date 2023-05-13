@@ -166,6 +166,7 @@ const AddOrder = () => {
     if (!user._id) {
       Toast.show("Cannot get user detail");
     }
+
     try {
       await http.post("/api/orders/addNewOrders", {
         ...formData,
@@ -175,7 +176,11 @@ const AddOrder = () => {
         createdBy: {
           $oid: user._id,
         },
+        purchaseDate: {
+          $date: new Date(),
+        },
       });
+      navigate(-1);
     } catch {
       Toast.show("Submit new order error");
     }
@@ -207,34 +212,7 @@ const AddOrder = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="totalPrice"
-          label="Total Price"
-          rules={[
-            {
-              pattern: /^\d+(\.\d{1,2})?$/,
-              message: "Please input a valid price",
-            },
-            { required: true, message: "Required" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="purchaseDate"
-          label="Date"
-          trigger="onConfirm"
-          onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
-            datePickerRef.current?.open();
-          }}
-          rules={[{ required: true, message: "required" }]}
-        >
-          <DatePicker>
-            {value =>
-              value ? dayjs(value).format("DD/MM/YYYY") : "Please choose"
-            }
-          </DatePicker>
-        </Form.Item>
+
         <div className="adm-list-header">
           You could either let ChatGPT identify your reciept
         </div>

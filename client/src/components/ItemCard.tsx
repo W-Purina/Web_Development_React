@@ -17,7 +17,7 @@ const ItemCard = ({ itemName, amount, totalPrice }: FamilyCardProps) => {
           <span
             className={`${styles.shadowText} text-grey-700 mb-1 h-full text-right text-3xl`}
           >
-            ${totalPrice}
+            ${Number(totalPrice).toFixed(2)}
           </span>
         </div>
       </Card>

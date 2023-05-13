@@ -66,7 +66,7 @@ router.get('/:orderId', async(req, res) => {
   const selectedOrder = await queryOrderById(orderId);
   
   if (selectedOrder){
-    // selectedOrder.totalPrice = parseFloat(selectedOrder.totalPrice.toFixed(2));
+    selectedOrder.totalPrice = parseFloat(selectedOrder.totalPrice.toFixed(2));
     return res.status(200).json(selectedOrder);
   }
   else{
@@ -80,7 +80,11 @@ router.get('/:orderId', async(req, res) => {
 router.get('/queryByDate/:groupId/:year/:month', async (req, res) => {
   const { groupId, year, month } = req.params;
   const selectedOrder = await queryByDate(groupId, year, month);
-  if (selectedOrder) return res.json(selectedOrder);
+  if (selectedOrder) {
+    // Assuming selectedOrder is an object
+    if(selectedOrder.totalPrice) selectedOrder.totalPrice = parseFloat(selectedOrder.totalPrice.toFixed(2));
+    return res.json(selectedOrder);
+  }
   return res.sendStatus(HTTP_NOT_FOUND);
 });
 

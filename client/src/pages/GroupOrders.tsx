@@ -4,6 +4,7 @@ import http from "../http/http";
 import {
   Button,
   DatePicker,
+  Dialog,
   FloatingBubble,
   Form,
   Input,
@@ -22,13 +23,15 @@ import styles from "./Dashboard.module.css";
 import GroupProfile from "../widgets/GroupProfile";
 import OrderCardList from "../widgets/OrderCardList";
 import { GroupsContext } from "../contexts/GroupsContextProvider";
-import { GroupDetails } from "../types/Group";
+import { Group, GroupDetails } from "../types/Group";
 import { Order } from "../types/Order";
+import { UserContext } from "../contexts/UserContextProvider";
 
 const GroupOrders = () => {
   const { groupId, year, month } = useParams();
   const navigate = useNavigate();
   const { groupDetails, setCurrentGroupDetails } = useContext(GroupsContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // If year and month not provided, use current date.
@@ -85,15 +88,21 @@ const GroupOrders = () => {
 
   const getGroupDetails = async () => {
     try {
-      const groupProfile = await http.get("/api/group/groupInfo/" + groupId);
+      const groupProfile = (await http.get(
+        "/api/group/groupInfo/" + groupId
+      )) as GroupDetails;
 
       const resp = (await http.get(
         `/api/orders/queryByDate/${groupId}/${year}/${month}`
       )) as Order[];
-      const groupDetailsTmp = groupDetails;
+      const groupDetailsTmp = groupProfile;
 
       groupDetailsTmp.orders = resp;
       setCurrentGroupDetails(groupDetailsTmp);
+
+      console.log("Group Details:");
+
+      console.log(groupDetails);
     } catch {
       Toast.show("No data in this month");
     }
@@ -115,6 +124,77 @@ const GroupOrders = () => {
       </Space>
     </div>
   );
+
+  const handleInvite = async () => {
+    try {
+      await http.post("/api/group/insertUsersInGroupByGroupId", {
+        username: invitedMemberIdentifier,
+        groupid: {
+          $oid: groupDetails._id,
+        },
+      });
+      Toast.show("Invited " + invitedMemberIdentifier);
+    } catch {
+      Toast.show("No such user");
+    }
+  };
+  const handleModify = async () => {
+    try {
+      await http.put("/api/group/" + groupDetails._id, {
+        groupname: tempGroupName,
+      });
+      Toast.show("Succeed");
+      navigate("/dashboard");
+    } catch {
+      Toast.show("Modify failed");
+    }
+  };
+
+  const handleDeleteUserFromGroup = async (id: string) => {
+    try {
+      if (id === user._id) {
+        Toast.show("You cannot delete your self");
+      } else {
+        await http.delete("/api/users/delete", {
+          data: {
+            operatorId: {
+              $oid: user._id,
+            },
+            groupId: {
+              $oid: groupDetails._id,
+            },
+            userId: {
+              $oid: id,
+            },
+          },
+        });
+        Toast.show("Succeed, please refresh the page");
+      }
+    } catch {
+      Toast.show("Cannot remove user " + id);
+    }
+  };
+
+  const handleDeleteGroup = async () => {
+    const result = await Dialog.confirm({
+      content: `Are you sure to DELETE "${groupDetails.groupname}" now?`,
+    });
+    if (result) {
+      try {
+        await http.delete("/api/group/deleteGroupById", {
+          data: {
+            id: {
+              $oid: groupDetails._id,
+            },
+          },
+        });
+        Toast.show("DELETED");
+        navigate("/dashboard");
+      } catch {
+        Toast.show("You are not the owner of the group");
+      }
+    }
+  };
 
   return (
     <>
@@ -187,15 +267,15 @@ const GroupOrders = () => {
                       color="primary"
                       size="middle"
                       fill="outline"
-                      onClick={() => console.log(invitedMemberIdentifier)}
+                      onClick={handleInvite}
                     >
                       Invite a Member
                     </Button>
                   }
                 >
-                  <Form.Item name="identifier" label="Identifier">
+                  <Form.Item name="username" label="Username">
                     <Input
-                      placeholder="Email or Username"
+                      placeholder=""
                       onChange={setInvitedMemberIdentifier}
                     ></Input>
                   </Form.Item>
@@ -208,7 +288,7 @@ const GroupOrders = () => {
                       color="primary"
                       size="middle"
                       fill="outline"
-                      onClick={() => console.log(tempGroupName)}
+                      onClick={handleModify}
                     >
                       Modify Group Name
                     </Button>
@@ -226,49 +306,29 @@ const GroupOrders = () => {
                   Delete a Member:
                 </span>
                 <Space wrap>
-                  <Button
-                    color="danger"
-                    size="mini"
-                    fill="outline"
-                    shape="rounded"
-                  >
-                    YuQian Ma
-                  </Button>
-                  <Button
-                    color="danger"
-                    size="mini"
-                    fill="outline"
-                    shape="rounded"
-                  >
-                    Henry Liu
-                  </Button>
-                  <Button
-                    color="danger"
-                    size="mini"
-                    fill="outline"
-                    shape="rounded"
-                  >
-                    Henry Liu
-                  </Button>
-                  <Button
-                    color="danger"
-                    size="mini"
-                    fill="outline"
-                    shape="rounded"
-                  >
-                    Henry Liu
-                  </Button>
-                  <Button
-                    color="danger"
-                    size="mini"
-                    fill="outline"
-                    shape="rounded"
-                  >
-                    Henry Liu
-                  </Button>
+                  {groupDetails.members.map((member, index) => {
+                    return (
+                      <Button
+                        color="danger"
+                        size="mini"
+                        fill="outline"
+                        shape="rounded"
+                        onClick={() => handleDeleteUserFromGroup(member._id)}
+                        key={index}
+                      >
+                        {member.username}
+                      </Button>
+                    );
+                  })}
                 </Space>
                 <br />
-                <Button block color="danger" size="large" fill="outline">
+                <Button
+                  block
+                  color="danger"
+                  size="large"
+                  fill="outline"
+                  onClick={handleDeleteGroup}
+                >
                   DELETE GROUP
                 </Button>
               </Space>

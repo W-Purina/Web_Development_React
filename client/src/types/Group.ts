@@ -6,7 +6,8 @@ export interface Group {
   description?: string;
   members: string[];
   createdBy?: {
-    $oid: string;
+    _id: string;
+    username: string;
   };
   orders?: {
     $oid: string;
@@ -17,9 +18,13 @@ export interface Group {
 export interface GroupDetails {
   _id: string;
   groupname: string;
-  members: string[];
+  members: {
+    username: string;
+    _id: string;
+  }[];
   createdBy: {
-    $oid: string;
+    _id: string;
+    username: string;
   };
   currentMonthCost: number;
   orders: Order[];

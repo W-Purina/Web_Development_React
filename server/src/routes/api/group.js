@@ -1,6 +1,7 @@
 import express from "express";
 import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId, getGroupById, deleteGroupById} from "./../../allData/app";
 import mongoose from "mongoose";
+import { Group } from "../../allData/schema";
 
 const HTTP_CREATED = 201;
 
@@ -67,13 +68,14 @@ router.post('/', async(req, res) => {
 router.put('/:groupId', async(req, res) => {
     const groupId = new mongoose.Types.ObjectId(req.params.groupId);
     const data = req.body;
-    data._id = groupId;
 
     if (data.members){
+        console.log("members")
         data.members = data.members.map(member => new mongoose.Types.ObjectId(member.$oid));
     };
 
     if (data.orders){
+        console.log("ORDER")
         data.orders = data.orders.map(order => new mongoose.Types.ObjectId(order.$oid));
     };
 
@@ -81,9 +83,10 @@ router.put('/:groupId', async(req, res) => {
         data.isActive = Boolean(data.isActive);
     };
 
-    data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
-
-    const newGroup = await updateGroup(data);
+    if(data.createdBy){
+        data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
+    };
+    const newGroup = await updateGroup(groupId,data);
 
     if (newGroup) return res.status(200)
     .header('Location', `/api/users/${newGroup._id}`)

@@ -31,7 +31,10 @@ const OrderProfile = () => {
               className={`${styles.shadowText} text-base text-white`}
               style={{ maxWidth: "13em" }}
             >
-              Created By: {orderDetails.createdBy}
+              Created By:{" "}
+              {typeof orderDetails.createdBy === "object"
+                ? orderDetails.createdBy.username
+                : orderDetails.createdBy}
             </span>
             <span
               className={`${styles.shadowText} text-base text-white`}

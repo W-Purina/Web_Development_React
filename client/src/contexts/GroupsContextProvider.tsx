@@ -12,7 +12,7 @@ const initialValue = {
     _id: "",
     groupname: "Default name",
     members: [],
-    createdBy: { $oid: "" },
+    createdBy: { _id: "", username: "" },
     currentMonthCost: 0,
     orders: [],
   } as GroupDetails,
@@ -32,7 +32,7 @@ const GroupsContextProvider = (props: GroupsContextProviderProps) => {
     _id: "",
     groupname: "Default name",
     members: [],
-    createdBy: { $oid: "" },
+    createdBy: { _id: "", username: "null" },
     currentMonthCost: 0,
     orders: [],
   });

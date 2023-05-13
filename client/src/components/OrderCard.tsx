@@ -25,7 +25,7 @@ const FamilyCard = ({
             <span
               className={`${styles.shadowText} text-grey-700 mb-1 h-full text-right text-3xl`}
             >
-              ${total}
+              ${Number(total).toFixed(2)}
             </span>
           </div>
         </Card>

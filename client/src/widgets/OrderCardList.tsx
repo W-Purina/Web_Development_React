@@ -23,7 +23,7 @@ const OrderCardList = () => {
               </div>
               <OrderCard
                 storeName={item.storename}
-                createdBy={item.createdBy}
+                createdBy={item.createdBy as string}
                 total={item.totalPrice}
                 orderId={item._id}
               ></OrderCard>
