@@ -144,7 +144,7 @@ router.get('/recentPurchases/:groupid', async (req, res) => {
     const { groupid } = req.params;
     try {
         const result = await getGroupById(groupid);
-        if (result.success) {
+        if (result) {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);
