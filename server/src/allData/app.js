@@ -280,8 +280,10 @@ async function addGroups(groupData) {
 // 获取小组详细信息
 async function getGroupById(groupId) {
     try {
-        // 通过 groupId 获取 Group 文档，但不包含 orders 字段
-        const group = await Group.findById(groupId).select('-orders');
+        // 通过 groupId 获取 Group 文档，并用 'username' 替换 'members' 字段
+        const group = await Group.findById(groupId)
+            .populate('members', 'username -_id') // 只选择 'username' 字段，排除 '_id' 字段
+            .select('-orders');
         return group;
     } catch (error) {
         console.error('Error occurred while getting group from the database:', error);
