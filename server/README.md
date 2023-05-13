@@ -175,7 +175,7 @@ Here's an overview of the available API endpoints:
 - Add new member to group
     - Using **InsertUsersInGroupByGroupId()** function
     - Method: POST
-    - API: ```http://localhost:3000/api/groups/insertUsersInGroupByGroupId```
+    - API: ```http://localhost:3000/api/group/insertUsersInGroupByGroupId```
     - Request body:
     ```{js}
     {
@@ -186,7 +186,7 @@ Here's an overview of the available API endpoints:
 - Get recent purchases by groupId
     - Using **getRecentPurchasesByGroupId()** function
     - Method: GET
-    - API: ```http://localhost:3000/api/groups/recentPurchases/:groupId```
+    - API: ```http://localhost:3000/api/group/recentPurchases/:groupId```
 
   
 ### orders.js
