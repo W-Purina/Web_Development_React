@@ -101,7 +101,7 @@ Clicking on the profile picture will redirect you to the "Personal Information" 
                                
 The dashboard displays all the groups that the individual has joined. By clicking on any of the groups, you can view the recent expenses and specific amounts associated with the group.
    
-## [GroupsOrder](images/Groups.png)
+## [GroupsOrder](images/GroupOrders.png)
 On the GroupOrder page, there are two buttons at the top:
    
 ### [GroupMember](images/Groups-control.png)
