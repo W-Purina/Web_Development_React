@@ -85,6 +85,8 @@ const GroupOrders = () => {
 
   const getGroupDetails = async () => {
     try {
+      const groupProfile = await http.get("/api/group/groupInfo/" + groupId);
+
       const resp = (await http.get(
         `/api/orders/queryByDate/${groupId}/${year}/${month}`
       )) as Order[];

@@ -1,10 +1,23 @@
-import { Button, Form, Input, NavBar, Space, TextArea } from "antd-mobile";
+import {
+  Button,
+  DatePicker,
+  DatePickerRef,
+  Form,
+  Input,
+  NavBar,
+  Space,
+  TextArea,
+} from "antd-mobile";
 import { AddCircleOutline } from "antd-mobile-icons";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { RefObject, useContext, useState } from "react";
 import { ImageUploader, Toast } from "antd-mobile";
 import { ImageUploadItem } from "antd-mobile/es/components/image-uploader";
 import { Configuration, OpenAIApi } from "openai";
+import dayjs from "dayjs";
+import http from "../http/http";
+import { UserContext } from "../contexts/UserContextProvider";
+import { GroupsContext } from "../contexts/GroupsContextProvider";
 
 interface FieldType {
   storename: string;
@@ -18,6 +31,9 @@ interface FieldType {
 
 const AddOrder = () => {
   const navigate = useNavigate();
+
+  const { user } = useContext(UserContext);
+  const { groupDetails } = useContext(GroupsContext);
 
   const [form] = Form.useForm<FieldType>();
 
@@ -121,7 +137,6 @@ const AddOrder = () => {
         const resJSON = await getGPTIdentificationResp(fullTextAnnotation.text);
         Toast.clear();
         form.setFieldValue("items", resJSON);
-        console.log(form.getFieldsValue(true));
       } else {
         Toast.clear();
         Toast.show({
@@ -141,12 +156,37 @@ const AddOrder = () => {
       });
     }
   };
+
+  const handleAddOrder = async () => {
+    console.log(form.getFieldsValue());
+    const formData = form.getFieldsValue();
+    if (!groupDetails._id) {
+      Toast.show("Cannot get group detail");
+    }
+    if (!user._id) {
+      Toast.show("Cannot get user detail");
+    }
+    try {
+      await http.post("/api/orders/addNewOrders", {
+        ...formData,
+        group: {
+          $oid: groupDetails._id,
+        },
+        createdBy: {
+          $oid: user._id,
+        },
+      });
+    } catch {
+      Toast.show("Submit new order error");
+    }
+  };
   // Upload Photo Logic Start end
   return (
     <>
       <NavBar onBack={() => navigate(-1)}>Add Order</NavBar>
       <Form
         form={form}
+        onFinish={handleAddOrder}
         layout="horizontal"
         footer={
           <>
@@ -179,6 +219,21 @@ const AddOrder = () => {
           ]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name="purchaseDate"
+          label="Date"
+          trigger="onConfirm"
+          onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
+            datePickerRef.current?.open();
+          }}
+          rules={[{ required: true, message: "required" }]}
+        >
+          <DatePicker>
+            {value =>
+              value ? dayjs(value).format("DD/MM/YYYY") : "Please choose"
+            }
+          </DatePicker>
         </Form.Item>
         <div className="adm-list-header">
           You could either let ChatGPT identify your reciept

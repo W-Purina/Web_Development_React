@@ -59,19 +59,20 @@ router.post('/addNewOrders', async(req, res) => {
 })
 
 // 按照账单id找详细内容
-// 请求api：localhost:3000/api/orders/6458758cd7cb952d83555d62
+// 请求api：localhost:3000/api/orders/645db5c83b1d552ae2604417
 // 通过测试 ( •̀ ω •́ )y
 router.get('/:orderId', async(req, res) => {
   const orderId = req.params.orderId;
   const selectedOrder = await queryOrderById(orderId);
+  
   if (selectedOrder){
+    // selectedOrder.totalPrice = parseFloat(selectedOrder.totalPrice.toFixed(2));
     return res.status(200).json(selectedOrder);
   }
   else{
     return res.sendStatus(404);
   }
 })
-
 
 // 按照日期查找账单
 // 请求例子：“ localhost:3000/api/orders/queryByDate/:groupId/:year/:month ”
