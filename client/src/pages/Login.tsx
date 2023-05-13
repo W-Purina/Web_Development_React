@@ -21,6 +21,8 @@ const Login = () => {
         localStorage.setItem("token", resp.token);
         const userJson = await JSON.stringify(resp.user);
         localStorage.setItem("user", userJson);
+        console.log(localStorage.getItem("user"));
+
         setAuthed(true);
         setCurrentUser(resp.user as User);
         window.location.replace("/dashboard");

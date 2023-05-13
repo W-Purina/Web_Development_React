@@ -14,8 +14,6 @@ import UserContextProvider from "./contexts/UserContextProvider";
 import GroupsContextProvider from "./contexts/GroupsContextProvider";
 import OrdersContextProvider from "./contexts/OrdersContextProvider";
 import { PrivateRoute, PrivateRouteProps } from "./PrivateRoute";
-import { useContext } from "react";
-import { AuthContext } from "./contexts/AuthContextProvider";
 
 const App = () => {
   const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
@@ -97,14 +95,7 @@ const App = () => {
                   />
                   <Route
                     path="/"
-                    element={
-                      <PrivateRoute
-                        {...defaultPrivateRouteProps}
-                        outlet={<UploadPhoto />}
-                      >
-                        <Navigate to={"/login"}></Navigate>
-                      </PrivateRoute>
-                    }
+                    element={<Navigate to={"/login"}></Navigate>}
                   />
                 </Routes>
               </BrowserRouter>

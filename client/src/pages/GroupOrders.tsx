@@ -40,42 +40,42 @@ const GroupOrders = () => {
     }
 
     // Test data
-    // setCurrentGroupDetails({
-    //   _id: "010101",
-    //   groupname: "1320/Unilodge on Whitaker Pl.",
-    //   members: [
-    //     "Bo Pang",
-    //     "Tianchuan Mi",
-    //     "Bo Li",
-    //     "Tianqi Jiang",
-    //     "Haoru Guan",
-    //   ],
-    //   createdBy: { $oid: "1" },
-    //   currentMonthCost: 1235,
-    //   orders: [
-    //     {
-    //       _id: "333",
-    //       storename: "Countdown",
-    //       createdBy: "Bo Pang",
-    //       purchaseDate: new Date().toString(),
-    //       totalPrice: 25,
-    //     },
-    //     {
-    //       _id: "555",
-    //       storename: "New World",
-    //       createdBy: "Bo Li",
-    //       purchaseDate: new Date().toString(),
-    //       totalPrice: 40,
-    //     },
-    //     {
-    //       _id: "333",
-    //       storename: "Warehouse",
-    //       createdBy: "Haoru Guan",
-    //       purchaseDate: new Date().toString(),
-    //       totalPrice: 125,
-    //     },
-    //   ],
-    // });
+    setCurrentGroupDetails({
+      _id: "010101",
+      groupname: "1320/Unilodge on Whitaker Pl.",
+      members: [
+        "Bo Pang",
+        "Tianchuan Mi",
+        "Bo Li",
+        "Tianqi Jiang",
+        "Haoru Guan",
+      ],
+      createdBy: { $oid: "1" },
+      currentMonthCost: 1235,
+      orders: [
+        {
+          _id: "333",
+          storename: "Countdown",
+          createdBy: "Bo Pang",
+          purchaseDate: new Date().toString(),
+          totalPrice: 25,
+        },
+        {
+          _id: "555",
+          storename: "New World",
+          createdBy: "Bo Li",
+          purchaseDate: new Date().toString(),
+          totalPrice: 40,
+        },
+        {
+          _id: "333",
+          storename: "Warehouse",
+          createdBy: "Haoru Guan",
+          purchaseDate: new Date().toString(),
+          totalPrice: 125,
+        },
+      ],
+    });
     if (year && month) getGroupDetails();
   }, [groupId, year, month, navigate]);
 

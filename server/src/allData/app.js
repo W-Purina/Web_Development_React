@@ -12,7 +12,7 @@ mongoose.set("strictQuery", false);
 
 main();
 
-/////////////////////////////////// 添加测试用例//////////////////////////////////////////////////////
+///////////////////////////////////添加测试用例//////////////////////////////////////////////////////
 async function main() {
   // 连接数据库
   await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
@@ -33,17 +33,17 @@ async function main() {
   // await clearDatabase(Order);
   // console.log();
 
-  // 添加User操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
+  // // 添加User操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
   // const newUser = await addUsers_test();
-  // console.log('New user:', newUser);
+  // // console.log('New user:', newUser);
 
-  // 添加Group操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
+  // // 添加Group操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
   // const newGroup = await addGroups_test();
-  // console.log('New group:', newGroup);
+  // // console.log('New group:', newGroup);
 
-  // 添加Order操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
+  // // 添加Order操作 -- 目前属于虚拟数据测试，后续应该传入相应的参数
   // const newOrder = await addOrders_test();
-  // console.log('new Order:', newOrder);
+  // // console.log('new Order:', newOrder);
 
   // 断开数据库
   // await mongoose.disconnect();
@@ -174,8 +174,7 @@ async function loginUser(identifier, password) {
   const isPasswordValid = await user.verifyPassword(password);
   if (isPasswordValid) {
     console.log("Password is valid.");
-    user.password = undefined;
-    return user;
+    return true;
   } else {
     console.log("Password is invalid.");
     return false;
@@ -260,39 +259,28 @@ async function queryUserInfoById(userId) {
 
 // 添加小组 finished!!!!
 async function addGroups(groupData) {
-    try {
-      // 创建一个新的组
-        const newGroup = new Group(groupData);
-        // console.log(newGroup);
-        // 从 groupData 中读取 createBy 信息
-        const createdByUser = await User.findById(new mongoose.Types.ObjectId(groupData.createdBy));
-        console.log(createdByUser)
-        if (createdByUser) {
-            // 将 createBy 用户添加到组成员列表中
-            newGroup.members.push(createdByUser._id);
-        } else {
-            console.error(`User with ID ${groupData.createdBy} not found`);
-        }
-        
-        await newGroup.save();
-        
-      // 向所有组成员的group信息插入当前组
-        for (const memberId of newGroup.members) {
-        const user = await User.findById(memberId);
-        if (user) {
-            user.groups.push(newGroup._id);
-            await user.save();
-        } else {
-            console.error(`User with ID ${memberId} not found`);
-        }}
-        console.log('New group has been added to the database and members updated.');
-        return newGroup;
-    } catch (error) {
-        console.error('Error occurred while adding new group to the database:', error);
-        return null;
+  try {
+    // 创建一个新的组
+    const newGroup = new Group(groupData);
+    console.log(newGroup);
+    const linst = new mongoose.Types.ObjectId(groupData.createdBy);
+    // 将 createdBy 用户添加到 members 列表中
+    if (newGroup.createdBy) {
+      newGroup.members.push(linst);
     }
-}
 
+    await newGroup.save();
+
+    // 向所有组成员的group信息插入当前组
+    for (const memberId of newGroup.members) {
+      const user = await User.findById(memberId);
+      if (user) {
+        user.groups.push(newGroup._id);
+        await user.save();
+      } else {
+        console.error(`User with ID ${memberId} not found`);
+      }
+    }
 
     console.log(
       "New group has been added to the database and members updated."
