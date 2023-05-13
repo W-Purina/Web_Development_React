@@ -187,6 +187,18 @@ Here's an overview of the available API endpoints:
     - Using **getRecentPurchasesByGroupId()** function
     - Method: GET
     - API: ```http://localhost:3000/api/group/recentPurchases/:groupId```
+- Delete group by groupId
+    - Using **deleteGroupById()** function
+    - Method: DELETE
+    - API: ```http://localhost:3000/api/group/deleteGroupById```
+    - Request body:
+    ```{js}
+        {
+            "id":{
+                "$oid": "645db5c83b1d552ae260441e"
+            }
+        }
+    ```
 
   
 ### orders.js
