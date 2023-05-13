@@ -1,5 +1,12 @@
 import express from "express";
-import {addGroups, updateGroup, InsertUsersInGroupByGroupId, getRecentPurchasesByGroupId, getGroupById, deleteGroupById} from "./../../allData/app";
+import {
+  addGroups,
+  updateGroup,
+  InsertUsersInGroupByGroupId,
+  getRecentPurchasesByGroupId,
+  getGroupById,
+  deleteGroupById,
+} from "./../../allData/app";
 import mongoose from "mongoose";
 
 const HTTP_CREATED = 201;
@@ -17,27 +24,32 @@ const router = express.Router();
 //     "createdBy": "6456eb073d477a819c2fa193"
 //   }
 // 通过测试 ( •̀ ω •́ )y
-router.post('/', async(req, res) => {
-    const data = req.body;
-    if (data.members){
-        data.members = data.members.map(member => new mongoose.Types.ObjectId(member.$oid));
-    };
+router.post("/", async (req, res) => {
+  const data = req.body;
+  if (data.members) {
+    data.members = data.members.map(
+      (member) => new mongoose.Types.ObjectId(member.$oid)
+    );
+  }
 
-    if (data.orders){
-        data.orders = data.orders.map(order => new mongoose.Types.ObjectId(order.$oid));
-    };
+  if (data.orders) {
+    data.orders = data.orders.map(
+      (order) => new mongoose.Types.ObjectId(order.$oid)
+    );
+  }
 
-    data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
+  data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
 
-    const newGroup = await addGroups(data);
-    
-    if (newGroup) return res.status(HTTP_CREATED)
-    .header('Location', `/api/group/${newGroup._id}`) 
-    .json(newGroup);
+  const newGroup = await addGroups(data);
 
-    return res.sendStatus(422);
-})
+  if (newGroup)
+    return res
+      .status(HTTP_CREATED)
+      .header("Location", `/api/group/${newGroup._id}`)
+      .json(newGroup);
 
+  return res.sendStatus(422);
+});
 
 // 更新小组信息
 // 请求 api：“ localhost:3000/api/group/6456eb083d477a819c2fa19a ”
@@ -64,35 +76,38 @@ router.post('/', async(req, res) => {
 //     ]
 //   }
 // 通过测试 ( •̀ ω •́ )y
-router.put('/:groupId', async(req, res) => {
-    const groupId = new mongoose.Types.ObjectId(req.params.groupId);
-    const data = req.body;
-    data._id = groupId;
+router.put("/:groupId", async (req, res) => {
+  const groupId = new mongoose.Types.ObjectId(req.params.groupId);
+  const data = req.body;
+  data._id = groupId;
 
-    if (data.members){
-        data.members = data.members.map(member => new mongoose.Types.ObjectId(member.$oid));
-    };
+  if (data.members) {
+    data.members = data.members.map(
+      (member) => new mongoose.Types.ObjectId(member.$oid)
+    );
+  }
 
-    if (data.orders){
-        data.orders = data.orders.map(order => new mongoose.Types.ObjectId(order.$oid));
-    };
+  if (data.orders) {
+    data.orders = data.orders.map(
+      (order) => new mongoose.Types.ObjectId(order.$oid)
+    );
+  }
 
-    if(data.isActive){
-        data.isActive = Boolean(data.isActive);
-    };
+  if (data.isActive) {
+    data.isActive = Boolean(data.isActive);
+  }
 
-    data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
+  data.createdBy = new mongoose.Types.ObjectId(data.createdBy.$oid);
 
-    const newGroup = await updateGroup(data);
+  const newGroup = await updateGroup(data);
 
-    if (newGroup) return res.status(200)
-    .header('Location', `/api/users/${newGroup._id}`)
-    .json(newGroup);
-    res.sendStatus(400); 
-})
-
-
-
+  if (newGroup)
+    return res
+      .status(200)
+      .header("Location", `/api/users/${newGroup._id}`)
+      .json(newGroup);
+  res.sendStatus(400);
+});
 
 // 向小组中添加新成员
 // 请求 api：localhost:3000/api/group/insertUsersInGroupByGroupId
@@ -102,19 +117,18 @@ router.put('/:groupId', async(req, res) => {
 //     "groupid": {"$oid": "645851feac6c8637635240a2"}
 // }
 // 通过测试 ( •̀ ω •́ )y
-router.post('/insertUsersInGroupByGroupId', async (req, res) => {
-    const data = req.body;
-    const username = data.username;
-    const groupId = new mongoose.Types.ObjectId(data.groupid.$oid);
-  
-    const result = await InsertUsersInGroupByGroupId(username, groupId);
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json(result);
-    }
-  });
-  
+router.post("/insertUsersInGroupByGroupId", async (req, res) => {
+  const data = req.body;
+  const username = data.username;
+  const groupId = new mongoose.Types.ObjectId(data.groupid.$oid);
+
+  const result = await InsertUsersInGroupByGroupId(username, groupId);
+  if (result.success) {
+    res.status(200).json(result);
+  } else {
+    res.status(400).json(result);
+  }
+});
 
 // 通过groupId获取最近一个月的所有购买记录
 // 请求API：“localhost:3000/api/groups/recentPurchases/6458758cd7cb952d83555cdd”
@@ -124,35 +138,34 @@ router.post('/insertUsersInGroupByGroupId', async (req, res) => {
 //     "month":"10"
 // }
 // 通过测试 ( •̀ ω •́ )y
-router.get('/recentPurchases/:groupid', async (req, res) => {
-    const { groupid } = req.params;
-    try {
-        const result = await getRecentPurchasesByGroupId(groupid);
-        if (result.success) {
-            res.status(200).json(result);
-        } else {
-            res.status(404).json(result);
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+router.get("/recentPurchases/:groupid", async (req, res) => {
+  const { groupid } = req.params;
+  try {
+    const result = await getRecentPurchasesByGroupId(groupid);
+    if (result.success) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json(result);
     }
-  });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
 
-
-  // 通过groupId查找小组详细信息，不包含order
-  router.get('/groupInfo/:groupid', async(req, res) => {
-    const { groupid } = req.params;
-    try {
-        const result = await getGroupById(groupid);
-        if (result) {
-            res.status(200).json(result);
-        } else {
-            res.status(404).json(result);
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+// 通过groupId查找小组详细信息，不包含order
+router.get("/groupInfo/:groupid", async (req, res) => {
+  const { groupid } = req.params;
+  try {
+    const result = await getGroupById(groupid);
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json(result);
     }
-  })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
 
 // delete group
 // 请求 api：‘ localhost:3000/api/group/deleteGroupById ’
@@ -162,16 +175,16 @@ router.get('/recentPurchases/:groupid', async (req, res) => {
 //     }
 // }
 // 通过测试 ( •̀ ω •́ )y
-router.delete('/deleteGroupById', async (req, res) => {
-    const id = new mongoose.Types.ObjectId(req.body.id.$oid);
+router.delete("/deleteGroupById", async (req, res) => {
+  const id = new mongoose.Types.ObjectId(req.body.id.$oid);
 
-    const result = await deleteGroupById(id);
-  
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json(result);
-    }
+  const result = await deleteGroupById(id);
+
+  if (result) {
+    res.status(200).json(result);
+  } else {
+    res.status(400).json(result);
+  }
 });
 
 export default router;
