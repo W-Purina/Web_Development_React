@@ -28,30 +28,30 @@ const OrderDetails = () => {
   const { orderDetails, setCurrentOrderDetails } = useContext(OrdersContext);
 
   useEffect(() => {
-    setCurrentOrderDetails({
-      _id: "777",
-      storename: "Warehouse",
-      purchaseDate: new Date().toString(),
-      totalPrice: 23.81,
-      createdBy: "Bo Li",
-      items: [
-        {
-          productname: "Autie Dai's Chive Pork Dumplings",
-          amount: 3,
-          productprice: 33.3,
-        },
-        {
-          productname: "Tegel California Chicken Portrait",
-          amount: 1,
-          productprice: 15.06,
-        },
-        {
-          productname: "Living & Co Air Fryer",
-          amount: 1,
-          productprice: 79.9,
-        },
-      ],
-    });
+    // setCurrentOrderDetails({
+    //   _id: "777",
+    //   storename: "Warehouse",
+    //   purchaseDate: new Date().toString(),
+    //   totalPrice: 23.81,
+    //   createdBy: "Bo Li",
+    //   items: [
+    //     {
+    //       productname: "Autie Dai's Chive Pork Dumplings",
+    //       amount: 3,
+    //       productprice: 33.3,
+    //     },
+    //     {
+    //       productname: "Tegel California Chicken Portrait",
+    //       amount: 1,
+    //       productprice: 15.06,
+    //     },
+    //     {
+    //       productname: "Living & Co Air Fryer",
+    //       amount: 1,
+    //       productprice: 79.9,
+    //     },
+    //   ],
+    // });
   }, []);
 
   return (

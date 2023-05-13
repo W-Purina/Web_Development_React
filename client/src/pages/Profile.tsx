@@ -31,10 +31,12 @@ const Profile = () => {
     try {
       await http.put("/api/users/updateuser", {
         _id: {
-          $oid: "",
+          $oid: user._id,
         },
         ...formData,
       });
+
+      handleLogout();
     } catch {
       Toast.show("Update User Error. Please check if your Email is valid.");
     }

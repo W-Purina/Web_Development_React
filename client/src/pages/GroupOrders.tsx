@@ -23,6 +23,7 @@ import GroupProfile from "../widgets/GroupProfile";
 import OrderCardList from "../widgets/OrderCardList";
 import { GroupsContext } from "../contexts/GroupsContextProvider";
 import { GroupDetails } from "../types/Group";
+import { Order } from "../types/Order";
 
 const GroupOrders = () => {
   const { groupId, year, month } = useParams();
@@ -40,51 +41,57 @@ const GroupOrders = () => {
     }
 
     // Test data
-    setCurrentGroupDetails({
-      _id: "010101",
-      groupname: "1320/Unilodge on Whitaker Pl.",
-      members: [
-        "Bo Pang",
-        "Tianchuan Mi",
-        "Bo Li",
-        "Tianqi Jiang",
-        "Haoru Guan",
-      ],
-      createdBy: { $oid: "1" },
-      currentMonthCost: 1235,
-      orders: [
-        {
-          _id: "333",
-          storename: "Countdown",
-          createdBy: "Bo Pang",
-          purchaseDate: new Date().toString(),
-          totalPrice: 25,
-        },
-        {
-          _id: "555",
-          storename: "New World",
-          createdBy: "Bo Li",
-          purchaseDate: new Date().toString(),
-          totalPrice: 40,
-        },
-        {
-          _id: "333",
-          storename: "Warehouse",
-          createdBy: "Haoru Guan",
-          purchaseDate: new Date().toString(),
-          totalPrice: 125,
-        },
-      ],
-    });
-    if (year && month) getGroupDetails();
+    // setCurrentGroupDetails({
+    //   _id: "010101",
+    //   groupname: "1320/Unilodge on Whitaker Pl.",
+    //   members: [
+    //     "Bo Pang",
+    //     "Tianchuan Mi",
+    //     "Bo Li",
+    //     "Tianqi Jiang",
+    //     "Haoru Guan",
+    //   ],
+    //   createdBy: { $oid: "1" },
+    //   currentMonthCost: 1235,
+    //   orders: [
+    //     {
+    //       _id: "333",
+    //       storename: "Countdown",
+    //       createdBy: "Bo Pang",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 25,
+    //     },
+    //     {
+    //       _id: "555",
+    //       storename: "New World",
+    //       createdBy: "Bo Li",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 40,
+    //     },
+    //     {
+    //       _id: "333",
+    //       storename: "Warehouse",
+    //       createdBy: "Haoru Guan",
+    //       purchaseDate: new Date().toString(),
+    //       totalPrice: 125,
+    //     },
+    //   ],
+    // });
+    if (year && month) {
+      getGroupDetails();
+    }
+    console.log("执行");
   }, [groupId, year, month, navigate]);
 
   const getGroupDetails = async () => {
     try {
       const resp = (await http.get(
-        `/api/orders/queryByDate/${groupId}?year=${year}&month=${month}`
-      )) as GroupDetails;
-      setCurrentGroupDetails(resp);
+        `/api/orders/queryByDate/${groupId}/${year}/${month}`
+      )) as Order[];
+      const groupDetailsTmp = groupDetails;
+
+      groupDetailsTmp.orders = resp;
+      setCurrentGroupDetails(groupDetailsTmp);
     } catch {
       Toast.show("No data in this month");
     }

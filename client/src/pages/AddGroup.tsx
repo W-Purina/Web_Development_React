@@ -27,6 +27,7 @@ const AddGroup = () => {
           $oid: user._id,
         },
       });
+      navigate("/dashboard");
     } catch {
       Toast.show("Create Group Error");
     }

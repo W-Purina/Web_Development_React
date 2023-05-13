@@ -26,9 +26,7 @@ function authenticateToken(req, res, next) {
   // 获取 auth-token 头
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
   if (token == null) return res.sendStatus(401); // 如果没有 token，返回 401
-
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403); // 如果 token 不合法，返回 403
     req.user = user; // 将用户信息附加到请求对象上

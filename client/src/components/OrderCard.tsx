@@ -6,11 +6,17 @@ interface FamilyCardProps {
   storeName: string;
   createdBy: string;
   total: number;
+  orderId: string;
 }
-const FamilyCard = ({ storeName, createdBy, total }: FamilyCardProps) => {
+const FamilyCard = ({
+  storeName,
+  createdBy,
+  total,
+  orderId,
+}: FamilyCardProps) => {
   return (
     <>
-      <Link to={"/order/1"}>
+      <Link to={"/order/" + orderId}>
         <Card title={storeName} className={`${styles.familyCard} mb-8`}>
           <div className="flex items-center">
             <div className="flex h-full flex-grow">
