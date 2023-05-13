@@ -122,7 +122,7 @@ orderSchema.pre('save', function (next) {
     // item是便利items.reduce项目中所有的item在这里就是商品单中的商品。
     this.totalPrice = this.items.reduce((accumulator, item) => {
         // 如果项目有总价，则使用总价，否则使用单价乘以数量
-        const itemPrice = item.productprice != null ? item.productprice : item.unitprice * item.quantity;
+        const itemPrice = item.productprice != null ? item.productprice : item.unitprice * item.amount;
         return accumulator + itemPrice;
     }, 0);
     next();
