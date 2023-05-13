@@ -76,7 +76,7 @@ const GroupOrders = () => {
     //     },
     //   ],
     // });
-    getGroupDetails();
+    if (year && month) getGroupDetails();
   }, [groupId, year, month, navigate]);
 
   const getGroupDetails = async () => {

@@ -13,8 +13,15 @@ import AddOrder from "./pages/AddOrder";
 import UserContextProvider from "./contexts/UserContextProvider";
 import GroupsContextProvider from "./contexts/GroupsContextProvider";
 import OrdersContextProvider from "./contexts/OrdersContextProvider";
+import { PrivateRoute, PrivateRouteProps } from "./PrivateRoute";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContextProvider";
 
 const App = () => {
+  const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
+    isAuthenticated: localStorage.getItem("token") ? true : false,
+    authenticationPath: "/login",
+  };
   return (
     <>
       <OrdersContextProvider>
@@ -27,29 +34,77 @@ const App = () => {
                   <Route path="/register" element={<Register />} />
                   <Route
                     path="/dashboard"
-                    element={<Dashboard></Dashboard>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<Dashboard></Dashboard>}
+                      ></PrivateRoute>
+                    }
                   ></Route>
-                  <Route path="/test" element={<UploadPhoto />} />
-                  <Route path="/profile" element={<Profile></Profile>} />
+                  <Route
+                    path="/test"
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<UploadPhoto />}
+                      ></PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<Profile></Profile>}
+                      ></PrivateRoute>
+                    }
+                  />
                   <Route
                     path="/group/addGroup"
-                    element={<AddGroup></AddGroup>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<AddGroup></AddGroup>}
+                      ></PrivateRoute>
+                    }
                   />
                   <Route
                     path="/order/addOrder"
-                    element={<AddOrder></AddOrder>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<AddOrder></AddOrder>}
+                      ></PrivateRoute>
+                    }
                   />
                   <Route
                     path="/group/:groupId/:year?/:month?"
-                    element={<GroupOrders></GroupOrders>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<GroupOrders></GroupOrders>}
+                      ></PrivateRoute>
+                    }
                   />
                   <Route
                     path="/order/:orderId"
-                    element={<OrderDetails></OrderDetails>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<OrderDetails></OrderDetails>}
+                      ></PrivateRoute>
+                    }
                   />
                   <Route
                     path="/"
-                    element={<Navigate to={"/login"}></Navigate>}
+                    element={
+                      <PrivateRoute
+                        {...defaultPrivateRouteProps}
+                        outlet={<UploadPhoto />}
+                      >
+                        <Navigate to={"/login"}></Navigate>
+                      </PrivateRoute>
+                    }
                   />
                 </Routes>
               </BrowserRouter>

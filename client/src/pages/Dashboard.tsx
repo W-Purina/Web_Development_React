@@ -1,4 +1,4 @@
-import { FloatingBubble, NavBar } from "antd-mobile";
+import { FloatingBubble, NavBar, Toast } from "antd-mobile";
 import DashboardProfile from "../widgets/DashboardProfile";
 import FamilyCardList from "../widgets/FamilyCardList";
 import { AddOutline } from "antd-mobile-icons";
@@ -12,7 +12,7 @@ import { Group } from "../types/Group";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, setCurrentUser } = useContext(UserContext);
   const { setCurrentGroups } = useContext(GroupsContext);
 
   useEffect(() => {
@@ -43,14 +43,23 @@ const Dashboard = () => {
     //     currentMonthCost: 820,
     //   },
     // ]);
-    getGroupsOnDashboard();
+    const userPersisted = localStorage.getItem("user");
+    if (userPersisted) {
+      const parsedUser = JSON.parse(userPersisted);
+      if (parsedUser._id) {
+        setCurrentUser(parsedUser);
+        getGroupsOnDashboard(parsedUser._id);
+      } else {
+        Toast.show("Didn't found user id");
+      }
+    }
   }, []);
 
-  const getGroupsOnDashboard = async () => {
-    console.log(user);
+  const getGroupsOnDashboard = async (id: string) => {
+    console.log("Getting groups of " + id);
 
     const resp = (await http.get(
-      `/api/users/queryGroupByUserid/${user["_id"]}`
+      `/api/users/queryGroupByUserid/${id}`
     )) as Group[];
     setCurrentGroups(resp);
   };

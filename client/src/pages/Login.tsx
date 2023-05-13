@@ -5,11 +5,13 @@ import http from "../http/http";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContextProvider";
 import { User } from "../types/User";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { setCurrentUser } = useContext(UserContext);
+  const { setAuthed } = useContext(AuthContext);
 
   const handleLogin = async () => {
     const loginForm = form.getFieldsValue();
@@ -17,9 +19,11 @@ const Login = () => {
       try {
         const resp = (await http.post("/auth/login", loginForm)) as any;
         localStorage.setItem("token", resp.token);
+        const userJson = await JSON.stringify(resp.user);
+        localStorage.setItem("user", userJson);
+        setAuthed(true);
         setCurrentUser(resp.user as User);
-
-        navigate("/dashboard");
+        window.location.replace("/dashboard");
       } catch {
         Toast.show("Invalid identifier or password");
       }
