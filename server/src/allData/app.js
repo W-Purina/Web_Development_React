@@ -260,22 +260,39 @@ async function queryUserInfoById(userId) {
 
 // 添加小组 finished!!!!
 async function addGroups(groupData) {
-  try {
-    // 创建一个新的组
-    const newGroup = new Group(groupData);
-    console.log(newGroup);
-    await newGroup.save();
-
-    // 向所有组成员的group信息插入当前组
-    for (const memberId of newGroup.members) {
-      const user = await User.findById(memberId);
-      if (user) {
-        user.groups.push(newGroup._id);
-        await user.save();
-      } else {
-        console.error(`User with ID ${memberId} not found`);
-      }
+    try {
+      // 创建一个新的组
+        const newGroup = new Group(groupData);
+        // console.log(newGroup);
+        // 从 groupData 中读取 createBy 信息
+        const createdByUser = await User.findById(new mongoose.Types.ObjectId(groupData.createdBy));
+        console.log(createdByUser)
+        if (createdByUser) {
+            // 将 createBy 用户添加到组成员列表中
+            newGroup.members.push(createdByUser._id);
+        } else {
+            console.error(`User with ID ${groupData.createdBy} not found`);
+        }
+        
+        await newGroup.save();
+        
+      // 向所有组成员的group信息插入当前组
+        for (const memberId of newGroup.members) {
+        const user = await User.findById(memberId);
+        if (user) {
+            user.groups.push(newGroup._id);
+            await user.save();
+        } else {
+            console.error(`User with ID ${memberId} not found`);
+        }}
+        console.log('New group has been added to the database and members updated.');
+        return newGroup;
+    } catch (error) {
+        console.error('Error occurred while adding new group to the database:', error);
+        return null;
     }
+}
+
 
     console.log(
       "New group has been added to the database and members updated."
