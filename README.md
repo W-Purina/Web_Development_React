@@ -1,57 +1,51 @@
-# project-group-notable-nightingales
+# 如何启动整体的项目
 <h3>
-To simulate the mobile version of a website in a browser
-<h3>
-
-# How to Start Project
-<h3>
-The project is deployed as a whole in Docker containers using Docker Compose, with Nginx serving as a reverse proxy.
+该项目使用 Docker Compose 整体部署在 Docker 容器中，Nginx 作为反向代理服务器，因此需要使用docker进行项目的部署，让整体的服务器开启变得更加简单快捷
 <h3>
 
-## Installing and configuring Docker
+## 安装和配置 Docker
 ----
-### Installation Steps--Windows/Mac
-1. Visit the Docker Desktop for Windows download page: [Docker Desktop](https://www.docker.com/products/docker-desktop)
+### 安装步骤 - Windows/Mac
+1.访问 Docker Desktop for Windows 下载页面：Docker Desktop
 
-2. Click on "Get Docker" to download the Docker Desktop Installer.
+2.点击“获取 Docker”下载 Docker Desktop 安装程序。
 
-3. Open the downloaded Docker Desktop Installer file and follow the prompts to complete the installation.
+3.打开下载的 Docker Desktop 安装程序文件，按提示完成安装。
 
-4. Once the installation is complete, Docker Desktop will automatically start. You can find the Docker icon in the system tray, indicating that Docker is running.
+4.安装完成后，Docker Desktop 将自动启动。您可以在系统托盘中找到 Docker 图标，表示 Docker 正在运行。
 
-5. Open a command-line window (e.g., PowerShell) and enter `docker version` to verify if the installation was successful.
+5.打开命令行窗口（例如 PowerShell），输入 docker version 来验证安装是否成功。
 
-#### Problem
+#### 可能出现的问题
 `Docker Desktop requires a newer WSL kernel version.`
 <h4>   
-If you encounter an error stating that the WSL (Windows Subsystem for Linux) kernel version on your Windows system is outdated, and Docker Desktop requires a newer version to function properly.
+如果您遇到一个错误，提示您的 Windows 系统上的 WSL（Windows 子系统 for Linux）内核版本过旧，Docker Desktop 需要更新版本才能正常运行。
 <h4>
 
-### Solve Problem
+### 解决问题
 <h4>
-To install the WSL2 Linux kernel update, follow the steps below:
+按照以下步骤安装 WSL2 Linux 内核更新：
 
-1. Run the [wsl_update_x64.msi](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package) file that you downloaded earlier to install the WSL2 Linux kernel update.
+1. 运行您之前下载的[wsl_update_x64.msi](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package) 文件以安装 WSL2 Linux 内核更新。
 
-2. After the installation is complete, restart your computer.
+2.安装完成后，重启您的电脑。
 
-3. Once your computer has restarted, search for "WSL" in the Microsoft Store and choose a Linux distribution (e.g., Ubuntu).
+3. 电脑重启后，在微软商店搜索“WSL”并选择一个 Linux 发行版（例如 Ubuntu）。
 
-4. Click on "Get" or "Install" to begin the installation of the chosen Linux distribution.
+4. 点击“获取”或“安装”开始安装所选的 Linux 发行版。
 
-5. After the installation is complete, you can use the following command to launch the installed Linux distribution (e.g., Ubuntu):
-
+5. 安装完成后，您可以使用以下命令启动安装的 Linux 发行版（例如 Ubuntu）：
    ```shell
    wsl -d Ubuntu
 <h4>
 
-# Use Docker to Start Project
-1. Navigate directly to the project directory (project-group-notable-nightingales-main) and open the terminal.
+# 使用 Docker 启动项目
+1. 直接导航到项目目录，打开终端。
 
-2. Run the following command to build and start your Docker containers:     
+2. 运行以下命令来构建并启动您的 Docker：  
 ` docker-compose up -d --build `
 
-3. Wait for the containers to build and start. Once they are up and running, you can see the logs and monitor their status.
+3. 等待容器构建并启动。一旦它们运行起来，您可以查看日志并监控它们的状态。
 ```csharp
 Network project-group-notable-nightingales-main_default  Created   
 Container frontend                                       Started   
@@ -59,60 +53,56 @@ Container server                                         Started
 Container mongo                                          Started    
 Container nginx                                          Started   
 ```
-4. You can see the Containers in DockerDeskTop
+4. 您可以在 DockerDeskTop 中看到容器
 [DockerExample-images](images/DockerDesktop.png)   
  
-5. Open your preferred web browser, Enter the following URL in the address bar: `http://localhost/login`
-You can see the Project.
+5. 打开您喜欢的网络浏览器，在地址栏输入以下 URL： `http://localhost/login`
 
-6. Once the Docker Desktop server is running, the project can continue to run, and the uploaded records will be saved, regardless of whether you open and run the project in VS Code.
-- Restarting the server in Docker Desktop: You can restart the server directly within Docker Desktop.
-- Removing the server: If needed, you can remove the server from Docker Desktop
-- Shutting down the server using the terminal: You can use the command `docker-compose down in` the terminal to shut down the server. After shutting down the server, if you want to start it again, you can use the command `docker-compose up -d --build` to rebuild and start the server.
+6. 一旦 Docker Desktop 服务器运行，项目可以继续运行，上传的记录将被保存，无论您是否在 VS Code 中打开并运行项目。
+
+-在 Docker Desktop 中重启服务器：您可以直接在 Docker Desktop 中重启服务器。
+-删除服务器：如果需要，您可以从 Docker Desktop 中删除服务器。
+-使用终端关闭服务器：您可以在终端中使用命令 docker-compose down 来关闭服务器。关闭服务器后，如果您想再次启动它，可以使用命令 docker-compose up -d --build 重新构建并启动服务器。
 
 
-# Project Functionality
-## [Login](images/login.png)
+# 项目功能
+## [登录](images/login.png)
 <h4>
-Upon accessing the page, the user will be prompted to log in. If they don't have an account, they can click on the "Register" button. For existing users, they need to enter their email and password. If the credentials are correct, they will be redirected to the dashboard. If the credentials are incorrect, an error message will be displayed.
+访问页面时，用户将被提示登录。如果他们没有账户，可以点击“注册”按钮。对于现有用户，他们需要输入他们的电子邮件和密码。如果凭证正确，他们将被重定向到仪表盘。如果凭证不正确，将显示错误消息。
 <h4>
 
-## [Register](images/register.png)
-Upon entering the registration page, users are required to input all the requested information.
+## [注册](images/register.png)
+进入注册页面后，用户需要输入所有要求的信息。
 
- **The password must be at least 6 characters long and include a combination of uppercase letters, lowercase letters, and numbers.**
+ **密码长度至少为6个字符，且包括大写字母、小写字母和数字的组合**
+如果不符合这些要求，将导致注册尝试失败，并出现错误消息。
 
-Failure to meet these requirements will result in an unsuccessful registration attempt with an appropriate error message. 
+**不允许重复注册**
+成功注册后，用户将被重定向到登录页面，在那里他们可以输入相应的电子邮件和密码进行登录。
 
-**Repeated registration is also not allowed.**
+### [例子](images/Register-eg.png)
 
-Upon successful registration, users will be redirected to the login page, where they can enter their corresponding email and password to log in.
-
-
-### [Example](images/Register-eg.png)
-
-## [DashBoard](images/dashboard.png)
-When logged into the dashboard, it will display the user's profile picture, full name, balance, and the groups the user is a member of. Additionally, there is a plus icon in the bottom right corner that allows users to [add new groups](images/AddGroup.png).
+## [显示页面](images/dashboard.png)
+登录仪表板后，它将显示用户的个人头像、全名、余额以及用户所属的小组。此外，在右下角有一个加号图标，允许用户[加入新的小组](images/AddGroup.png).
                            
-Clicking on the plus icon will redirect you to the "Add Group" page.,need add a corresponding description and select group members.
+点击加号图标将重定向你到“添加小组”页面，在那里需要添加相应的描述并选择小组成员。
                         
-[User-info](images/update-user.png)
-Clicking on the profile picture will redirect you to the "Personal Information" page, where you can modify your personal information. Clicking on "Logout" will allow you to log out and return to the login page. When updating your information, clicking on "Update" will trigger the personal information update process.
-                               
-The dashboard displays all the groups that the individual has joined. By clicking on any of the groups, you can view the recent expenses and specific amounts associated with the group.
+[用户信息](images/update-user.png)
+点击头像将重定向你到“个人信息”页面，在那里你可以修改你的个人信息。点击“登出”将允许你登出并返回登录页面。更新信息时，点击“更新”将触发个人信息更新过程。
+
+仪表板显示个人加入的所有小组。点击任何一个小组，你可以查看与该小组相关的最近支出和具体金额。
    
-## [GroupsOrder](images/GroupOrders.png)
-On the GroupOrder page, there are two buttons at the top:
-   
+## [小组订单](images/GroupOrders.png)
+在小组订单页面顶部有两个按钮： 
+
 ### [GroupMember](images/Groups-control.png)
-"Manage Group Members" button: This button allows you to search for and manage the members of the group. You can make changes such as adding or removing members, updating member information, or adjusting member roles within the group.
+“管理小组成员”按钮：此按钮允许你搜索和管理小组的成员。你可以进行诸如添加或移除成员、更新成员信息或调整小组内成员角色等更改。
 
-### [Calendar](images/date.png)
-"View Expenses by Year and Month" button: This button allows you to view expenses categorized by year and month. You can select a specific year and month to see the breakdown of expenses and their corresponding destinations for that period.
+### [日历](images/date.png)
+“按年月查看支出”按钮：此按钮允许你查看按年月分类的支出。你可以选择特定的年份和月份来查看该时期的支出细分及其对应的目的地。
 
+## [订单详细](images/order-detail.png)
+小组订单页面将显示小组内的最近支出及相应金额。
 
-## [OrderDetail](images/order-detail.png)
-The group orders page will display the recent expenses and corresponding amounts within the group.
-
-## [AddOrder](images/AddOrder.png)
-Clicking on the plus icon under the group orders page will redirect you to the "Add Order Information" page. Here, you can enter the store name, total expenses, and upload a photo for analysis and processing by ChatGPT. The total price will be extracted and displayed as output.
+## [添加订单信息](images/AddOrder.png)
+在小组订单页面下方点击加号图标将重定向你到“添加订单信息”页面。在这里，你可以输入商店名称、总支出，并上传照片由 ChatGPT 进行分析和处理。总价将被提取并显示为输出。

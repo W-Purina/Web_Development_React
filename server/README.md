@@ -1,43 +1,23 @@
-# The Backend
-This is the backend part of the Project Group Notable Nightingales, which provides a RESTful API for the frontend application. The backend is built using Node.js, Express, and MongoDB.
-## Table of Contents
-- [Architecture](#Aritecture)
-- [Installation](#Installation)
-- [API Endpoints](#API-Endpoints)
-- [Testing](#Testing)
-- [Contributors](#Contributors)
+# 后端API介绍
+为前端应用程序提供了 RESTful API。后端使用 Node.js、Express 和 MongoDB 构建。
+
+## 目录
+- [数据架构](#Aritecture)
+- [API端点设计](#API-Endpoints)
+- [测试](#Testing)
 ## Aritecture
-The backend is structured using the Model-View-Controller (MVC) pattern, where the models represent the database schema, the controllers handle the business logic, and the routes define the API endpoints. The project also uses JWT (JSON Web Token) for user authentication and authorization.
-##  Installation
-Follow these steps to set up the backend locally:
-1. Clone the repository:
-```{}
-    git clone https://github.com/UOA-CS732-SE750-Students-2023/project-group-notable-nightingales.git
-    cd project-group-notable-nightingales/server
-```
-2. Install dependencies:
-```{}
-npm install
-```
-3. Set up environment variables:
-Create a  file in the root folder of the backend and set the following variables:```.env```
-```{}
-DB_URL = <your_mongodb_connection_string>
-```
-4. Run the application:
-```{}
-npm start
-```
+后端使用模型-视图-控制器（MVC）模式构建，模型代表数据库模式，控制器处理业务逻辑，路由定义 API 端点。该项目还使用 JWT（JSON Web Token）进行用户认证和授权。
+
 ##   API Endpoints
-Here's an overview of the available API endpoints:  
-- /auth: Login function by JWT
-- /api/users: User creation and management
-- /api/group: Group creation and management
-- /api/orders: Order creation and management
+以下是可用 API 端点的概览：
+- /auth: 使用 JWT 的登录功能
+- /api/users: 用户创建和管理
+- /api/group: 小组创建和管理
+- /api/orders: 订单创建和管理
 
 ### auth.js
-- Login
-    - Using **loginUser()** function
+- 登录
+    - 使用 **loginUser()** 
     - Method: POST
     - API: ```http://localhost:3000/auth/login```
     - Request body : 
@@ -49,8 +29,8 @@ Here's an overview of the available API endpoints:
     ```
     - Pass the plaintext password
 ### users.js
-- Create a new account :  
-    - Using **addUser()** function  
+- 创建新账户 :  
+    - 使用 **addUser()**   
     - Method: POST
     - API: ```http://localhost:3000/api/users```
     - Request body:  
@@ -69,12 +49,12 @@ Here's an overview of the available API endpoints:
         "sex": "male"
   }
     ```
-- Get user's information :
-    - Using **queryUserInfoById()** function
+- 获取用户信息： :
+    - 使用 **queryUserInfoById()** 
     - Method: GET
     - API: ```http://localhost:3000/api/users/:userId``` 
-- Update user's information : 
-    - Using **updateUser()** function
+- 更新用户信息: 
+    - 使用 **updateUser()** 
     - Method: PUT
     - API: ```http://localhost:3000/api/users/updateuser```
     - Request body:  
@@ -104,12 +84,12 @@ Here's an overview of the available API endpoints:
         "sex": "female"
   }
     ```
-- Select user by user name
-    - Using **queryBasicInfoByName()** function
+- 通过用户名选择用户
+    - 使用 **queryBasicInfoByName()** 
     - Method: GET
     - API: ```http://localhost:3000/api/users/userinfo/:username```
-- Delete a member from family
-    - Using **deleteUserFromGroup()** function
+- 从家庭中删除成员
+    - 使用 **deleteUserFromGroup()** 
     - Method: DELETE
     - API: ```http://localhost:3000/api/users/delete```
     - Request body:
@@ -128,12 +108,12 @@ Here's an overview of the available API endpoints:
   }
     ```
 - Select information about all groups that user join
-    - Using **queryGroupByUserid1()** function
+    - 使用 **queryGroupByUserid1()** 
     - API: ```localhost:3000/api/users/queryGroupByUserid/:userId```
   
 ### group.js
-- Create a new Group
-    - Using **addGroups()** function
+- 创建新小组
+    - 使用 **addGroups()** 
     - Method: POST
     - API: ```http://localhost:3000/api/group```
     - Request body:
@@ -144,8 +124,8 @@ Here's an overview of the available API endpoints:
         "createdBy": "6456eb073d477a819c2fa193"
     }
     ```
-- Update groupe information
-    - Using **updateGroup()** function
+- 更新小组信息
+    - 使用 **updateGroup()** 
     - Method: PUT
     - API: ```http://localhost:3000/api/group/:groupId```
     - Request body:
@@ -172,8 +152,8 @@ Here's an overview of the available API endpoints:
         ]
     }
     ```
-- Add new member to group
-    - Using **InsertUsersInGroupByGroupId()** function
+- 添加新的小组组员
+    - 使用 **InsertUsersInGroupByGroupId()** 
     - Method: POST
     - API: ```http://localhost:3000/api/group/insertUsersInGroupByGroupId```
     - Request body:
@@ -183,12 +163,12 @@ Here's an overview of the available API endpoints:
         "groupid": {"$oid": "645851feac6c8637635240a2"}
     }
     ```
-- Get recent purchases by groupId
-    - Using **getRecentPurchasesByGroupId()** function
+- 按组ID获取最近的购买记录
+    - 使用 **getRecentPurchasesByGroupId()** 
     - Method: GET
     - API: ```http://localhost:3000/api/group/recentPurchases/:groupId```
-- Delete group by groupId
-    - Using **deleteGroupById()** function
+- 通过组ID删除组
+    - 使用 **deleteGroupById()** 
     - Method: DELETE
     - API: ```http://localhost:3000/api/group/deleteGroupById```
     - Request body:
@@ -202,8 +182,8 @@ Here's an overview of the available API endpoints:
 
   
 ### orders.js
-- Add a new order
-    - Using **addOrders()** function
+- 添加新订单
+    - 使用 **addOrders()** 
     - Method: POST
     - API: ```http://localhost:3000/api/orders/addNewOrders```
     - Request body:
@@ -240,16 +220,16 @@ Here's an overview of the available API endpoints:
         "purchaseDate": {"$date": "2021-08-22T13:13:34.000Z"}
     }
     ```
-- Select orders by purchase date
-    - Using **queryByDate()** function
+- 按购买日期选择订单
+    - 使用 **queryByDate()** 
     - Method: GET
     - API: ```http://localhost:3000/api/orders/queryByDate/:groupId/:year/:month```
-- Select orders by order id
-    - Using **queryOrderById()** function
+- 按订单 ID 选择订单
+    - 使用 **queryOrderById()** 
     - Method: GET
     - API: ```http://localhost:3000/api/orders/:orderId```
-- Delete bill by id
-    - Using **deleteOrderById()** function
+- 通过 ID 删除账单
+    - 使用 **deleteOrderById()** 
     - Method: DELETE
     - API: ```http://localhost:3000/api/orders/delete```
     - Request body:
@@ -260,30 +240,28 @@ Here's an overview of the available API endpoints:
     ```
 
 
-## Testing
+## 测试
 
-Testing is divided into two main phases:
+测试分为两个主要阶段：
 
-### Phase 1: Database Initialization with HBS
-In this stage, we set up our test database. This involves the following steps:
+### Phase 1: 使用 HBS 初始化数据库
+在这个阶段，我们设置测试数据库。这包括以下步骤：
 
-1. **Create a `random_Data.hbs` file**: This file will contain the Handlebars template used to generate our test data.
+1. 创建 `random_Data.hbs` 文件：该文件将包含用于生成测试数据的 Handlebars 模板。
 
-2. **Create a `random_Data.js` file**: This file will run the Handlebars template and populate the database with the generated test data.
+2. 创建 `random_Data.js` 文件：该文件将运行 Handlebars 模板并用生成的测试数据填充数据库。
 
-3. **Run `random_Data.hbs` and `random_Data.js`**: Execute these scripts to initialize the database with the generated data.
+3. 运行 `random_Data.hbs` 和 `random_Data.js`：执行这些脚本以用生成的数据初始化数据库。
 
-### Phase 2: Testing with Postman
-In the second stage, we test each operation using the Postman application. 
+### Phase 2: 使用 Postman 进行测试
+在第二阶段，我们使用 Postman 应用程序测试每个操作。
 
-1. **Postman Setup**: If you haven't already, download and install Postman on your local machine.
+1. **导入集合**:导入仓库中提供的 Postman 集合。此集合包含了所有可用 API 端点的预配置请求。
 
-2. **Import the Collection**: Import the Postman collection provided in the repository. This collection contains pre-configured requests for all available API endpoints.
+2. **运行请求**: 对于每个 API 端点，在 Postman 中选择相应的请求并点击“发送”。在“响应”窗格的“Body”部分检查结果。确保返回的数据符合你的预期。
 
-3. **Run the Requests**: For each API endpoint, select the corresponding request in Postman and click "Send". Check the results in the "Body" section of the "Response" pane. Make sure the data returned matches what you expect.
-
-### Example
-**Database Initialization with HBS**
+### 示例
+**使用 HBS 初始化数据库**
 ```{js}
 async function addUsers_test() {
     // Utilize data simulation -- under normal circumstances, remove the loop, and convert the input parameters into UserInfo, where 'users' is the storage.
@@ -301,7 +279,7 @@ async function addUsers_test() {
     }
 }
 ```
-**Testing with Postman**  
+**使用 Postman 进行测试**  
 ```{js}
 // Get user information
 // Require api：“ http://localhost:3000/api/users/6456eb073d477a819c2fa185 ”
@@ -313,9 +291,3 @@ router.get('/:userId', async(req, res) => {
     return res.sendStatus(404);
 })
 ```
-
-Remember to always ensure your server is running before attempting to send requests via Postman.
-
-By following these two phases, you will be able to test the functionality and robustness of the API.
-
-Happy testing!
