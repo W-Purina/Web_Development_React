@@ -319,10 +319,3 @@ Remember to always ensure your server is running before attempting to send reque
 By following these two phases, you will be able to test the functionality and robustness of the API.
 
 Happy testing!
-
-
-
-
-## Contributors
-- Contributor 1: Yuqian Ma (Nefertari710)
-- Contributor 2: Zihui Yang (yzhzyyy)
